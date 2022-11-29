@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import RecipeContext from '../context/RecipeContext';
 import Categories from './Categories';
 
 function Recipes() {
@@ -11,6 +12,7 @@ function Recipes() {
   const imageOf = meal ? 'strMealThumb' : 'strDrinkThumb';
   const dataOf = meal ? 'meals' : 'drinks';
   const [apiResponse, setApiResponse] = useState(null);
+  const { filterCategory } = useContext(RecipeContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,7 +23,7 @@ function Recipes() {
       setApiResponse(data[dataOf]);
     };
     fetchData();
-  }, []);
+  }, [dataOf, meal]);
 
   if (!apiResponse) return <p>Loading Recipes...</p>;
 
@@ -29,7 +31,7 @@ function Recipes() {
     <div>
       <Categories />
 
-      {apiResponse.map((recipe, index) => index < renderAmount && (
+      {(filterCategory || apiResponse).map((recipe, index) => index < renderAmount && (
         <div data-testid={ `${index}-recipe-card` } key={ index }>
           <img
             src={ recipe[imageOf] }
