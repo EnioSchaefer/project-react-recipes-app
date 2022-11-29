@@ -6,7 +6,7 @@ export default LoginContext;
 
 export function LoginProvider({ children }) {
   return (
-    <LoginContext.Provider value={ {} }>
+    <LoginContext.Provider value="">
       {children}
     </LoginContext.Provider>
   );

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import Categories from './Categories';
 
 function Recipes() {
   const history = useHistory();
   const path = history.location.pathname;
-  const maxToRender = 12;
+  const renderAmount = 12;
   const meal = path === '/meals';
   const nameOf = meal ? 'strMeal' : 'strDrink';
   const imageOf = meal ? 'strMealThumb' : 'strDrinkThumb';
@@ -24,11 +25,11 @@ function Recipes() {
 
   if (!apiResponse) return <p>Loading Recipes...</p>;
 
-  console.log(apiResponse);
   return (
     <div>
-      <p>Recipes component</p>
-      {apiResponse.map((recipe, index) => index < maxToRender && (
+      <Categories />
+
+      {apiResponse.map((recipe, index) => index < renderAmount && (
         <div data-testid={ `${index}-recipe-card` } key={ index }>
           <img
             src={ recipe[imageOf] }

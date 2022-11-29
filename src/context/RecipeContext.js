@@ -6,7 +6,7 @@ export default RecipeContext;
 
 export function RecipeProvider({ children }) {
   return (
-    <RecipeContext.Provider value={ {} }>
+    <RecipeContext.Provider value="">
       {children}
     </RecipeContext.Provider>
   );
