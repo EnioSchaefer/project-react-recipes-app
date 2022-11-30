@@ -9,23 +9,26 @@ export default RecipeContext;
 export function RecipeProvider({ children }) {
   const [dataMeal, setDataMeal] = useState([]);
   const [dataDrink, setDataDrink] = useState([]);
+  const [filterCategory, setFilterCategory] = useState(null);
 
-  useEffect(() => {
-    fetchMeals(id)
-      .then((response) => setDataMeal(response));
-  }, []);
+  // useEffect(() => {
+  //   fetchMeals(id)
+  //     .then((response) => setDataMeal(response));
+  // }, []);
 
-  useEffect(() => {
-    fetchDrinks(id)
-      .then((response) => setDataDrink(response));
-  }, []);
+  // useEffect(() => {
+  //   fetchDrinks(id)
+  //     .then((response) => setDataDrink(response));
+  // }, []);
 
   const value = useMemo(() => ({
+    filterCategory,
+    setFilterCategory,
     dataDrink,
     setDataDrink,
     dataMeal,
     setDataMeal,
-  }), [dataMeal, dataDrink]);
+  }), [dataMeal, dataDrink, filterCategory]);
 
   return (
     <RecipeContext.Provider value={ value }>
