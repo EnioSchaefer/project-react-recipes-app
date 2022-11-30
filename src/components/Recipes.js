@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
 import Categories from './Categories';
+import './Recipes.css';
 
 function Recipes() {
   const history = useHistory();
@@ -11,8 +12,9 @@ function Recipes() {
   const nameOf = meal ? 'strMeal' : 'strDrink';
   const imageOf = meal ? 'strMealThumb' : 'strDrinkThumb';
   const dataOf = meal ? 'meals' : 'drinks';
+  const idOf = meal ? 'idMeal' : 'idDrink';
   const [apiResponse, setApiResponse] = useState(null);
-  const { filterCategory } = useContext(RecipeContext);
+  const { filterCategory, setIdRecipe, setIsMeal } = useContext(RecipeContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,14 +34,20 @@ function Recipes() {
       <Categories />
 
       {(filterCategory || apiResponse).map((recipe, index) => index < renderAmount && (
-        <div data-testid={ `${index}-recipe-card` } key={ index }>
+        <Link
+          to={ `${dataOf}/${recipe[idOf]}` }
+          data-testid={ `${index}-recipe-card` }
+          key={ index }
+          className="recipeCard"
+          onClick={ () => { setIsMeal(meal); setIdRecipe(recipe[idOf]); } }
+        >
           <img
             src={ recipe[imageOf] }
             data-testid={ `${index}-card-img` }
             alt={ recipe[nameOf] }
           />
           <p data-testid={ `${index}-card-name` }>{recipe[nameOf]}</p>
-        </div>
+        </Link>
       ))}
     </div>
   );

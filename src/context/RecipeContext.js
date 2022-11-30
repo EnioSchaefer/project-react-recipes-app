@@ -1,34 +1,31 @@
 import { createContext, useEffect, useState, useMemo } from 'react';
-import fetchMeals from '../service/fechMeals';
-import fetchDrinks from '../service/fechDrinks';
+import fetchData from '../service/fetchData';
 
 const RecipeContext = createContext();
 
 export default RecipeContext;
 
 export function RecipeProvider({ children }) {
-  const [dataMeal, setDataMeal] = useState([]);
-  const [dataDrink, setDataDrink] = useState([]);
+  const [recipeData, setRecipeData] = useState(null);
   const [filterCategory, setFilterCategory] = useState(null);
+  const [idRecipe, setIdRecipe] = useState('');
+  const [isMeal, setIsMeal] = useState(true);
 
-  // useEffect(() => {
-  //   fetchMeals(id)
-  //     .then((response) => setDataMeal(response));
-  // }, []);
-
-  // useEffect(() => {
-  //   fetchDrinks(id)
-  //     .then((response) => setDataDrink(response));
-  // }, []);
+  useEffect(() => {
+    fetchData(idRecipe, isMeal)
+      .then((response) => setRecipeData(response));
+  }, [idRecipe, isMeal]);
 
   const value = useMemo(() => ({
+    idRecipe,
+    setIdRecipe,
     filterCategory,
     setFilterCategory,
-    dataDrink,
-    setDataDrink,
-    dataMeal,
-    setDataMeal,
-  }), [dataMeal, dataDrink, filterCategory]);
+    recipeData,
+    setRecipeData,
+    isMeal,
+    setIsMeal,
+  }), [recipeData, filterCategory, idRecipe, isMeal]);
 
   return (
     <RecipeContext.Provider value={ value }>
