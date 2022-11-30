@@ -6,12 +6,17 @@ export default RecipeContext;
 
 export function RecipeProvider({ children }) {
   const [filterCategory, setFilterCategory] = useState(null);
+  const [idRecipe, setIdRecipe] = useState('');
 
-  const filterCategoryProvider = useMemo(() => (
-    { filterCategory, setFilterCategory }), [filterCategory, setFilterCategory]);
+  const value = useMemo(() => ({
+    filterCategory,
+    setFilterCategory,
+    idRecipe,
+    setIdRecipe,
+  }), [filterCategory, idRecipe]);
 
   return (
-    <RecipeContext.Provider value={ filterCategoryProvider }>
+    <RecipeContext.Provider value={ value }>
       {children}
     </RecipeContext.Provider>
   );
