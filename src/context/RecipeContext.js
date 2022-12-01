@@ -1,5 +1,4 @@
-import { createContext, useEffect, useState, useMemo } from 'react';
-import fetchData from '../service/fetchData';
+import { createContext, useState, useMemo } from 'react';
 
 const RecipeContext = createContext();
 
@@ -8,13 +7,9 @@ export default RecipeContext;
 export function RecipeProvider({ children }) {
   const [recipeData, setRecipeData] = useState(null);
   const [filterCategory, setFilterCategory] = useState(null);
-  const [idRecipe, setIdRecipe] = useState('');
-  const [isMeal, setIsMeal] = useState(true);
-
-  useEffect(() => {
-    fetchData(idRecipe, isMeal)
-      .then((response) => setRecipeData(response));
-  }, [idRecipe, isMeal]);
+  const [idRecipe, setIdRecipe] = useState(null);
+  const [isMeal, setIsMeal] = useState(null);
+  const [ingredients, setIngredients] = useState([]);
 
   const value = useMemo(() => ({
     idRecipe,
@@ -25,7 +20,9 @@ export function RecipeProvider({ children }) {
     setRecipeData,
     isMeal,
     setIsMeal,
-  }), [recipeData, filterCategory, idRecipe, isMeal]);
+    ingredients,
+    setIngredients,
+  }), [recipeData, filterCategory, idRecipe, isMeal, ingredients]);
 
   return (
     <RecipeContext.Provider value={ value }>

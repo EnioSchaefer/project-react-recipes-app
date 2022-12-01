@@ -14,17 +14,17 @@ function Recipes() {
   const dataOf = meal ? 'meals' : 'drinks';
   const idOf = meal ? 'idMeal' : 'idDrink';
   const [apiResponse, setApiResponse] = useState(null);
-  const { filterCategory, setIdRecipe, setIsMeal } = useContext(RecipeContext);
+  const { filterCategory } = useContext(RecipeContext);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchRecipes = async () => {
       const url = meal ? 'https://www.themealdb.com/api/json/v1/1/search.php?s='
         : 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
       const response = await fetch(url);
       const data = await response.json();
       setApiResponse(data[dataOf]);
     };
-    fetchData();
+    fetchRecipes();
   }, [dataOf, meal]);
 
   if (!apiResponse) return <p>Loading Recipes...</p>;
@@ -39,7 +39,6 @@ function Recipes() {
           data-testid={ `${index}-recipe-card` }
           key={ index }
           className="recipeCard"
-          onClick={ () => { setIsMeal(meal); setIdRecipe(recipe[idOf]); } }
         >
           <img
             src={ recipe[imageOf] }
