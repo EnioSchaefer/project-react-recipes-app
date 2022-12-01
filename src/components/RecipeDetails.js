@@ -64,28 +64,28 @@ export default function RecipeDetails() {
 
   if (recipeData) {
     return (
-      <>
-        <div className="page-details">
-          <div className="imgPrincipal">
-            <img
-              width="360px"
-              height="160px"
-              src={ recipeData[imageOf] }
-              alt={ recipeData[nameOf] }
-              data-testid="recipe-photo"
-            />
-          </div>
-          <div className="recipe-name">
-            <p data-testid="recipe-title">{ recipeData[nameOf] }</p>
-          </div>
-          {meal ? <p data-testid="recipe-category">{ recipeData.strCategory }</p>
-            : (
-              <p data-testid="recipe-category">
-                {
-                  `${recipeData.strCategory}, ${recipeData.strAlcoholic}`
-                }
-              </p>) }
-          <p data-testid="recipe-category">{ recipeData.strCategory }</p>
+      <div className="page-details">
+        <div className="imgPrincipal">
+          <img
+            width="360px"
+            height="160px"
+            src={ recipeData[imageOf] }
+            alt={ recipeData[nameOf] }
+            data-testid="recipe-photo"
+          />
+        </div>
+        <div className="recipe-name">
+          <p data-testid="recipe-title">{ recipeData[nameOf] }</p>
+        </div>
+        {meal ? <p data-testid="recipe-category">{ recipeData.strCategory }</p>
+          : (
+            <p data-testid="recipe-category">
+              {
+                `${recipeData.strCategory}, ${recipeData.strAlcoholic}`
+              }
+            </p>) }
+        <p data-testid="recipe-category">{ recipeData.strCategory }</p>
+        <div className="ingredientes-main">
           <p>Ingredientes</p>
           <div className="ingredients">
             {ingredients.map((ingredient, index) => (
@@ -96,28 +96,34 @@ export default function RecipeDetails() {
                 {`${ingredient.quantity} ${ingredient.name}`}
               </p>))}
           </div>
+        </div>
+        <div className="instructions-main">
+          <p>Instructions</p>
           <div className="instructions">
-            <p>Instructions</p>
+
             <p data-testid="instructions">{ recipeData.strInstructions }</p>
           </div>
-          <div className="Video">
-            {embedId && (
-              <div>
-                <p>Video</p>
-                <iframe
-                  title={ recipeData[nameOf] }
-                  data-testid="video"
-                  src={ `https://www.youtube.com/embed/${embedId}` }
-                />
-              </div>
-            )}
-          </div>
-          {carouselList && carouselList.map((item, index) => index < renderCaroucel && (
-            <div className="carousel">
+        </div>
+        <div className="Video">
+          {embedId && (
+            <div>
+              <p>Video</p>
+              <iframe
+                title={ recipeData[nameOf] }
+                data-testid="video"
+                src={ `https://www.youtube.com/embed/${embedId}` }
+              />
+            </div>
+          )}
+        </div>
+        <div className="carouselCard">
+          <div className="carousel">
+            {carouselList && carouselList.map((item, index) => index < renderCaroucel && (
+
               <Link
                 to={ `/${recomendationOf}/${item[!isMeal ? 'idMeal' : 'idDrink']}` }
                 key={ index }
-                className="carouselCard"
+
               >
                 <div className="img-carousel">
                   <img
@@ -130,8 +136,8 @@ export default function RecipeDetails() {
                   {item[!isMeal ? 'strMeal' : 'strDrink']}
                 </p>
               </Link>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
         <button
           type="button"
@@ -140,7 +146,7 @@ export default function RecipeDetails() {
         >
           Start Recipe
         </button>
-      </>
+      </div>
     );
   }
 }
