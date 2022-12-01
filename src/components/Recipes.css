@@ -1,0 +1,10 @@
+.recipeCard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 220px;
+}
+
+.recipeCard img {
+  width: 200px;
+}

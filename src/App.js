@@ -1,21 +1,17 @@
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-// import RecipeInProgress from './components/RecipeInProgress';
+import RecipeDetails from './components/RecipeDetails';
+import MainRecipes from './pages/MainRecipes';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route
-          path="/meals/:id-da-receita/in-progress"
-        />
-        <Route
-          path="/drinks/:id-da-receita/in-progress"
-        />
-      </Switch>
-    </BrowserRouter>
+    <Switch>
+      <Route exact path="/drinks" component={ MainRecipes } />
+      <Route exact path="/meals" component={ MainRecipes } />
+      <Route exact path="/drinks/:id" component={ RecipeDetails } />
+      <Route exact path="/meals/:id" component={ RecipeDetails } />
+    </Switch>
   );
 }
 
