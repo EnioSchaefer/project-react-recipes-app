@@ -8,7 +8,7 @@ function Categories() {
   const renderAmount = 5;
   const meal = path === '/meals';
   const dataOf = meal ? 'meals' : 'drinks';
-  const [apiResponse, setApiResponse] = useState(null);
+  const [categories, setCategories] = useState(null);
   const { setFilterCategory } = useContext(RecipeContext);
 
   useEffect(() => {
@@ -17,7 +17,12 @@ function Categories() {
         : 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
       const response = await fetch(url);
       const data = await response.json();
-      setApiResponse(data[dataOf]);
+
+      const prepCategories = data[dataOf]
+        .map((category, i) => i < renderAmount
+        && { name: category.strCategory, selected: false })
+        .filter((category) => category !== false);
+      setCategories(prepCategories);
     };
     fetchData();
   }, [dataOf, meal]);
@@ -27,21 +32,32 @@ function Categories() {
       : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`;
     const response = await fetch(url);
     const data = await response.json();
-    setFilterCategory(data[dataOf]);
+
+    const newCategories = categories.map((curr) => {
+      if (curr.name === category) { curr.selected = !curr.selected; }
+      return curr;
+    });
+
+    const isSelected = newCategories
+      .find((curr) => curr.name === category && curr.selected === true);
+    console.log(!!isSelected);
+
+    if (isSelected) { setFilterCategory(data[dataOf]); } else { setFilterCategory(null); }
+    setCategories(newCategories);
   };
 
-  if (!apiResponse) return <p>Loading Categories...</p>;
+  if (!categories) return <p>Loading Categories...</p>;
 
   return (
     <div>
-      {apiResponse.map((category, index) => index < renderAmount && (
+      {categories.map((category, index) => index < renderAmount && (
         <button
           type="button"
           key={ index }
-          data-testid={ `${category.strCategory}-category-filter` }
-          onClick={ () => changeCategory(category.strCategory) }
+          data-testid={ `${category.name}-category-filter` }
+          onClick={ () => changeCategory(category.name) }
         >
-          {category.strCategory}
+          {category.name}
         </button>
       ))}
       <button
