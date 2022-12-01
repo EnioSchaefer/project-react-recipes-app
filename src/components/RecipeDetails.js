@@ -90,19 +90,24 @@ export default function RecipeDetails() {
               }
             </p>) }
         <p data-testid="recipe-category">{ recipeData.strCategory }</p>
-        <p>Ingredientes</p>
-        <div className="ingredients">
-          {ingredients.map((ingredient, index) => (
-            <p
-              key={ index }
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              {`${ingredient.quantity} ${ingredient.name}`}
-            </p>))}
+        <div className="ingredientes-main">
+          <p>Ingredientes</p>
+          <div className="ingredients">
+            {ingredients.map((ingredient, index) => (
+              <p
+                key={ index }
+                data-testid={ `${index}-ingredient-name-and-measure` }
+              >
+                {`${ingredient.quantity} ${ingredient.name}`}
+              </p>))}
+          </div>
         </div>
-        <div className="instructions">
+        <div className="instructions-main">
           <p>Instructions</p>
-          <p data-testid="instructions">{ recipeData.strInstructions }</p>
+          <div className="instructions">
+
+            <p data-testid="instructions">{ recipeData.strInstructions }</p>
+          </div>
         </div>
         <div className="Video">
           {embedId && (
@@ -116,26 +121,30 @@ export default function RecipeDetails() {
             </div>
           )}
         </div>
-        {carouselList && carouselList.map((item, index) => index < renderCaroucel && (
+        <div className="carouselCard">
           <div className="carousel">
-            <Link
-              to={ `/${recomendationOf}/${item[!isMeal ? 'idMeal' : 'idDrink']}` }
-              key={ index }
-              className="carouselCard"
-            >
-              <div className="img-carousel">
-                <img
-                  src={ item[!isMeal ? 'strMealThumb' : 'strDrinkThumb'] }
-                  data-testid={ `${index}-recommendation-card` }
-                  alt={ item[!isMeal ? 'strMeal' : 'strDrink'] }
-                />
-              </div>
-              <p data-testid={ `${index}-recommendation-title` }>
-                {item[!isMeal ? 'strMeal' : 'strDrink']}
-              </p>
-            </Link>
+            {carouselList && carouselList.map((item, index) => index < renderCaroucel && (
+
+              <Link
+                to={ `/${recomendationOf}/${item[!isMeal ? 'idMeal' : 'idDrink']}` }
+                key={ index }
+
+              >
+                <div className="img-carousel">
+                  <img
+                    src={ item[!isMeal ? 'strMealThumb' : 'strDrinkThumb'] }
+                    data-testid={ `${index}-recommendation-card` }
+                    alt={ item[!isMeal ? 'strMeal' : 'strDrink'] }
+                  />
+                </div>
+                <p data-testid={ `${index}-recommendation-title` }>
+                  {item[!isMeal ? 'strMeal' : 'strDrink']}
+                </p>
+              </Link>
+
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     );
   }
