@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import searchIconSVG from '../images/searchIcon.svg';
 import profileIconSVG from '../images/profileIcon.svg';
+// import SearchBar from './SearchBar';
 
 export default function Header({ title, showSearch }) {
   const history = useHistory();
@@ -32,12 +33,6 @@ export default function Header({ title, showSearch }) {
           alt="SVG profile"
         />
       </button>
-      {showInput && (
-        <input
-          data-testid="search-input"
-          type="text"
-        />
-      )}
       {showSearch && (
         <button
           type="button"
@@ -56,6 +51,14 @@ export default function Header({ title, showSearch }) {
       >
         { title }
       </h1>
+      {showInput && (
+        <input
+          data-testid="search-input"
+          type="text"
+        />
+
+      )}
+
     </div>
   );
 }
