@@ -14,6 +14,7 @@ function Recipes() {
   const dataOf = meal ? 'meals' : 'drinks';
   const idOf = meal ? 'idMeal' : 'idDrink';
   const [apiResponse, setApiResponse] = useState(null);
+  const [categories, setCategories] = useState(null);
   const { filterCategory } = useContext(RecipeContext);
 
   useEffect(() => {
