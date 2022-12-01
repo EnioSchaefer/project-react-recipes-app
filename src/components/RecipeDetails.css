@@ -1,0 +1,62 @@
+.page-details {
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.imgPrincipal {
+  position: absolute;
+}
+
+.recipe-name{
+position: absolute;
+width: 147px;
+height: 42px;
+left: 109.01px;
+top: 81px;
+
+
+font-family: 'Epilogue';
+font-style: normal;
+font-weight: 900;
+font-size: 20px;
+line-height: 20px;
+text-align: center;
+letter-spacing: 0.105em;
+text-transform: uppercase;
+}
+
+.ingredients {
+height: 85vw;
+width: 335px;
+border: 1px solid black;
+position: absolute;
+left: 13px;
+top: 226px;
+gap:2px;
+background: white;
+font-size: 10px;
+word-wrap: break-word;
+}
+
+.instructions{
+box-sizing: border-box;
+word-wrap: break-word;
+position: absolute;
+width: 335px;
+height: 414vw;
+background: #FFFFFF;
+border: 0.554397px solid #B1B1B1;
+border-radius: 5.35144px;
+left: 13px;
+top: 600px;
+}
+
+.Video{
+position: absolute;
+width: 336px;
+height: 205.09px;
+left: 12px;
+top: 911px;
+border-radius: 0px;
+}
