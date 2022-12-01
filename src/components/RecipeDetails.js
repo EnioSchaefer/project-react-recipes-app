@@ -35,14 +35,9 @@ export default function RecipeDetails() {
     const setDataCarousel = async () => {
       const data = await fetchApiRecipe(meal);
       setCarouselList(data);
-      console.log(await data);
     };
     setDataCarousel();
   }, [setCarouselList, dataOf, meal]);
-
-  useEffect(() => {
-    console.log(carouselList);
-  }, [carouselList]);
 
   useEffect(() => {
     if (recipeData) {
@@ -69,74 +64,83 @@ export default function RecipeDetails() {
 
   if (recipeData) {
     return (
-      <div className="page-details">
-        <div className="imgPrincipal">
-          <img
-            width="360px"
-            height="160px"
-            src={ recipeData[imageOf] }
-            alt={ recipeData[nameOf] }
-            data-testid="recipe-photo"
-          />
-        </div>
-        <div className="recipe-name">
-          <p data-testid="recipe-title">{ recipeData[nameOf] }</p>
-        </div>
-        {meal ? <p data-testid="recipe-category">{ recipeData.strCategory }</p>
-          : (
-            <p data-testid="recipe-category">
-              {
-                `${recipeData.strCategory}, ${recipeData.strAlcoholic}`
-              }
-            </p>) }
-        <p data-testid="recipe-category">{ recipeData.strCategory }</p>
-        <p>Ingredientes</p>
-        <div className="ingredients">
-          {ingredients.map((ingredient, index) => (
-            <p
-              key={ index }
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              {`${ingredient.quantity} ${ingredient.name}`}
-            </p>))}
-        </div>
-        <div className="instructions">
-          <p>Instructions</p>
-          <p data-testid="instructions">{ recipeData.strInstructions }</p>
-        </div>
-        <div className="Video">
-          {embedId && (
-            <div>
-              <p>Video</p>
-              <iframe
-                title={ recipeData[nameOf] }
-                data-testid="video"
-                src={ `https://www.youtube.com/embed/${embedId}` }
-              />
-            </div>
-          )}
-        </div>
-        {carouselList && carouselList.map((item, index) => index < renderCaroucel && (
-          <div className="carousel">
-            <Link
-              to={ `/${recomendationOf}/${item[!isMeal ? 'idMeal' : 'idDrink']}` }
-              key={ index }
-              className="carouselCard"
-            >
-              <div className="img-carousel">
-                <img
-                  src={ item[!isMeal ? 'strMealThumb' : 'strDrinkThumb'] }
-                  data-testid={ `${index}-recommendation-card` }
-                  alt={ item[!isMeal ? 'strMeal' : 'strDrink'] }
+      <>
+        <div className="page-details">
+          <div className="imgPrincipal">
+            <img
+              width="360px"
+              height="160px"
+              src={ recipeData[imageOf] }
+              alt={ recipeData[nameOf] }
+              data-testid="recipe-photo"
+            />
+          </div>
+          <div className="recipe-name">
+            <p data-testid="recipe-title">{ recipeData[nameOf] }</p>
+          </div>
+          {meal ? <p data-testid="recipe-category">{ recipeData.strCategory }</p>
+            : (
+              <p data-testid="recipe-category">
+                {
+                  `${recipeData.strCategory}, ${recipeData.strAlcoholic}`
+                }
+              </p>) }
+          <p data-testid="recipe-category">{ recipeData.strCategory }</p>
+          <p>Ingredientes</p>
+          <div className="ingredients">
+            {ingredients.map((ingredient, index) => (
+              <p
+                key={ index }
+                data-testid={ `${index}-ingredient-name-and-measure` }
+              >
+                {`${ingredient.quantity} ${ingredient.name}`}
+              </p>))}
+          </div>
+          <div className="instructions">
+            <p>Instructions</p>
+            <p data-testid="instructions">{ recipeData.strInstructions }</p>
+          </div>
+          <div className="Video">
+            {embedId && (
+              <div>
+                <p>Video</p>
+                <iframe
+                  title={ recipeData[nameOf] }
+                  data-testid="video"
+                  src={ `https://www.youtube.com/embed/${embedId}` }
                 />
               </div>
-              <p data-testid={ `${index}-recommendation-title` }>
-                {item[!isMeal ? 'strMeal' : 'strDrink']}
-              </p>
-            </Link>
+            )}
           </div>
-        ))}
-      </div>
+          {carouselList && carouselList.map((item, index) => index < renderCaroucel && (
+            <div className="carousel">
+              <Link
+                to={ `/${recomendationOf}/${item[!isMeal ? 'idMeal' : 'idDrink']}` }
+                key={ index }
+                className="carouselCard"
+              >
+                <div className="img-carousel">
+                  <img
+                    src={ item[!isMeal ? 'strMealThumb' : 'strDrinkThumb'] }
+                    data-testid={ `${index}-recommendation-card` }
+                    alt={ item[!isMeal ? 'strMeal' : 'strDrink'] }
+                  />
+                </div>
+                <p data-testid={ `${index}-recommendation-title` }>
+                  {item[!isMeal ? 'strMeal' : 'strDrink']}
+                </p>
+              </Link>
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          className="start-btn"
+        >
+          Start Recipe
+        </button>
+      </>
     );
   }
 }

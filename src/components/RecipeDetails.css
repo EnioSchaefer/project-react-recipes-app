@@ -1,62 +1,72 @@
 .page-details {
+  align-items: center;
   background: white;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  width: 100vw;
 }
 
 .imgPrincipal {
-  position: absolute;
+  width: 100vw;
 }
 
-.recipe-name{
-position: absolute;
-width: 147px;
-height: 42px;
-left: 109.01px;
-top: 81px;
-
-
-font-family: 'Epilogue';
-font-style: normal;
-font-weight: 900;
-font-size: 20px;
-line-height: 20px;
-text-align: center;
-letter-spacing: 0.105em;
-text-transform: uppercase;
+.recipe-name {
+  font-family: Epilogue , serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 900;
+  height: 42px;
+  left: 109.01px;
+  letter-spacing: 0.105em;
+  line-height: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  top: 81px;
+  width: 147px;
 }
 
 .ingredients {
-height: 85vw;
-width: 335px;
-border: 1px solid black;
-position: absolute;
-left: 13px;
-top: 226px;
-gap:2px;
-background: white;
-font-size: 10px;
-word-wrap: break-word;
+  background: white;
+  border: 1px solid black;
+  font-size: 10px;
+  gap: 2px;
+  height: 85vw;
+  left: 13px;
+  top: 226px;
+  width: 335px;
+  word-wrap: break-word;
 }
 
-.instructions{
-box-sizing: border-box;
-word-wrap: break-word;
-position: absolute;
-width: 335px;
-height: 414vw;
-background: #FFFFFF;
-border: 0.554397px solid #B1B1B1;
-border-radius: 5.35144px;
-left: 13px;
-top: 600px;
+.instructions {
+  background: white;
+  border: 0.554px solid #b1b1b1;
+  border-radius: 5.351px;
+  box-sizing: border-box;
+  left: 13px;
+  top: 600px;
+  width: 335px;
+  word-wrap: break-word;
 }
 
-.Video{
-position: absolute;
-width: 336px;
-height: 205.09px;
-left: 12px;
-top: 911px;
-border-radius: 0px;
+.Video {
+  height: 205.09px;
+  left: 12px;
+  top: 911px;
+  width: 336px;
+}
+
+.start-btn {
+  background-color: rgba(248, 248, 41, 0.8);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-width: 0;
+  color: #5f5f5f;
+  font-family: TimesNewRoman , Times , serif;
+  font-size: 25px;
+  height: 10vh;
+  letter-spacing: 1.5px;
+  position: fixed;
+  width: 100vw;
 }
