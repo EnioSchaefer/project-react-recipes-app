@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
+import fetchApiRecipe from '../service/fechApiRecipe';
 import fetchData from '../service/fetchData';
 
 export default function RecipeDetails() {
@@ -8,6 +9,7 @@ export default function RecipeDetails() {
     setIngredients, setRecipeData,
     idRecipe, setIsMeal, setIdRecipe } = useContext(RecipeContext);
   const [embedId, setEmbedId] = useState(null);
+  const [carouselList, setCarouselList] = useState(null);
   const history = useHistory();
   const path = history.location.pathname;
   const id = path.split('/')[2];
@@ -24,6 +26,19 @@ export default function RecipeDetails() {
     };
     setData();
   }, [setRecipeData, idRecipe, isMeal, id, meal, idOf, setIdRecipe, setIsMeal]);
+
+  useEffect(() => {
+    const setDataCarousel = async () => {
+      const data = await fetchApiRecipe(meal);
+      setCarouselList(await data);
+      setIsMeal(meal);
+    };
+    setDataCarousel();
+  }, [setCarouselList, setIsMeal, meal]);
+
+  useEffect(() => {
+    console.log(carouselList);
+  }, [carouselList]);
 
   useEffect(() => {
     if (recipeData) {
