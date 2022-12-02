@@ -78,12 +78,25 @@ function RecipeInProgress() {
           <p>Ingredientes</p>
           <div className="ingredients">
             {ingredients.map((ingredient, index) => (
-              <p
+              <label
+                htmlFor="checkbox"
                 key={ index }
-                data-testid={ `${index}-ingredient-name-and-measure` }
+                data-testid={ `${index}-ingredient-step` }
               >
-                {`${ingredient.quantity} ${ingredient.name}`}
-              </p>))}
+                <p
+                  data-testid={ `${index}-ingredient-name-and-measure` }
+                >
+                  <input
+
+                    type="checkbox"
+                    id="checkbox"
+                  />
+
+                  {`${ingredient.quantity} ${ingredient.name}`}
+
+                </p>
+              </label>
+            ))}
           </div>
         </div>
         <div className="instructions-main">
