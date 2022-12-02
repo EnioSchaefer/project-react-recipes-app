@@ -1,5 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
+import shareIcon from '../images/searchIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import RecipeContext from '../context/RecipeContext';
 import fetchApiRecipe from '../service/fechApiRecipe';
 import fetchData from '../service/fetchData';
@@ -11,6 +14,7 @@ export default function RecipeDetails() {
     idRecipe, setIsMeal, setIdRecipe } = useContext(RecipeContext);
   const [embedId, setEmbedId] = useState(null);
   const [carouselList, setCarouselList] = useState(null);
+  const [showCopyMessage, setShowCopyMessage] = useState(false);
   const history = useHistory();
   const path = history.location.pathname;
   const id = path.split('/')[2];
@@ -52,7 +56,6 @@ export default function RecipeDetails() {
 
       const recipe = ingredientsList
         .map((ingredient, i) => ({ quantity: quantities[i], name: ingredient }));
-
       setIngredients(recipe);
 
       if (meal) {
@@ -62,13 +65,20 @@ export default function RecipeDetails() {
     }
   }, [recipeData, setIngredients, meal]);
 
+  const shareLink = () => {
+    copy(window.location.href);
+    setShowCopyMessage(true);
+    const fiveSeconds = 5000;
+    setTimeout(() => {
+      setShowCopyMessage(false);
+    }, fiveSeconds);
+  };
+
   if (recipeData) {
     return (
       <div className="page-details">
         <div className="imgPrincipal">
           <img
-            width="360px"
-            height="160px"
             src={ recipeData[imageOf] }
             alt={ recipeData[nameOf] }
             data-testid="recipe-photo"
@@ -78,11 +88,19 @@ export default function RecipeDetails() {
           <h1 data-testid="recipe-title">{ recipeData[nameOf] }</h1>
         </div>
         <button type="button" data-testid="favorite-btn">
-          Favorite
+          <img
+            src={ whiteHeartIcon }
+            alt="favorite button"
+          />
         </button>
-        <button type="button" data-testid="share-btn">
-          Share
+        <button type="button" onClick={ shareLink } data-testid="share-btn">
+          <img
+            src={ shareIcon }
+            alt="share button"
+          />
         </button>
+        {showCopyMessage
+          && <span style={ { fontSize: '10px' } }>Link copied!</span>}
         {meal ? <h4 data-testid="recipe-category">{ recipeData.strCategory }</h4>
           : (
             <h4 data-testid="recipe-category">
