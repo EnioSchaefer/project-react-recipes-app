@@ -1,24 +1,23 @@
 .page-details {
   display: flex;
   flex-direction: column;
-  height: 640px;
-  justify-content: space-between;
 }
 
 .imgPrincipal {
+  height: 100vw;
+  width: 100vw;
+}
+
+.imgPrincipal img {
+  height: 100vw;
   width: 100vw;
 }
 
 .recipe-name {
   font-family: TimesNewRoman , Times , serif;
   font-size: 20px;
-  font-style: normal;
   font-weight: 900;
-  height: 42px;
-  left: 109.01px;
-  letter-spacing: 0.105em;
-  line-height: 20px;
-  position: absolute;
+  letter-spacing: 0.1em;
   text-align: center;
   text-transform: uppercase;
   top: 81px;
@@ -27,7 +26,6 @@
 
 .ingredientes-main {
   margin: 2px;
-  position: absolute;
   top: 160px;
 }
 
@@ -43,7 +41,6 @@
   height: 85vw;
   left: 13px;
   line-height: 12px;
-  position: absolute;
   top: 56px;
   width: 335px;
   word-wrap: break-word;
@@ -52,7 +49,6 @@
 
 .instructions-main {
   margin: 2px;
-  position: absolute;
   text-align: justify;
   top: 550px;
 }
@@ -64,7 +60,6 @@
   box-sizing: border-box;
   height: 200vw;
   left: 13px;
-  position: absolute;
   top: 50px;
   width: 335px;
   word-wrap: break-word;
@@ -74,7 +69,6 @@
   border-radius: 0;
   height: 205.09px;
   left: 12px;
-  position: absolute;
   top: 911px;
   width: 336px;
 }
@@ -82,10 +76,8 @@
 .carouselCard {
   display: flex;
   gap: 10px;
+  height: 20vh;
   left: 12px;
-  overflow-y: auto;
-  position: absolute;
-  top: 1151px;
   width: 90%;
 }
 
