@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import shareIcon from '../images/searchIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import RecipeContext from '../context/RecipeContext';
 import fetchApiRecipe from '../service/fechApiRecipe';
 import fetchData from '../service/fetchData';
@@ -11,11 +12,11 @@ import './RecipeDetails.css';
 
 export default function RecipeDetails() {
   const { recipeData, isMeal, ingredients,
-    setIngredients, setRecipeData,
-    idRecipe, setIsMeal, setIdRecipe } = useContext(RecipeContext);
+    setIngredients, setRecipeData, setIsMeal, setIdRecipe } = useContext(RecipeContext);
   const [embedId, setEmbedId] = useState(null);
   const [carouselList, setCarouselList] = useState(null);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const history = useHistory();
   const path = history.location.pathname;
   const id = path.split('/')[2];
@@ -29,12 +30,17 @@ export default function RecipeDetails() {
 
   useEffect(() => {
     const setData = async () => {
+      const localStg = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      const found = localStg
+        ? localStg.find((favRecipe) => favRecipe.id === id) : false;
+      if (found) setIsFavorite(true);
+
       const data = await fetchData(id, meal);
       setRecipeData(await data);
       setIsMeal(meal); setIdRecipe(data[idOf]);
     };
     setData();
-  }, [setRecipeData, idRecipe, isMeal, id, meal, idOf, setIdRecipe, setIsMeal]);
+  }, [id, idOf, meal, setIdRecipe, setIsMeal, setRecipeData]);
 
   useEffect(() => {
     const setDataCarousel = async () => {
@@ -91,10 +97,14 @@ export default function RecipeDetails() {
         <button
           type="button"
           data-testid="favorite-btn"
-          onClick={ () => setLocalStorage(recipeData, isMeal) }
+          onClick={ () => {
+            setLocalStorage(recipeData, isMeal);
+            setIsFavorite(!isFavorite);
+          } }
+          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
         >
           <img
-            src={ whiteHeartIcon }
+            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
             alt="favorite button"
           />
         </button>
