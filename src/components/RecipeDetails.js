@@ -6,6 +6,7 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import RecipeContext from '../context/RecipeContext';
 import fetchApiRecipe from '../service/fechApiRecipe';
 import fetchData from '../service/fetchData';
+import setLocalStorage from '../service/setLocalStorage';
 import './RecipeDetails.css';
 
 export default function RecipeDetails() {
@@ -87,7 +88,11 @@ export default function RecipeDetails() {
         <div className="recipe-name">
           <h1 data-testid="recipe-title">{ recipeData[nameOf] }</h1>
         </div>
-        <button type="button" data-testid="favorite-btn">
+        <button
+          type="button"
+          data-testid="favorite-btn"
+          onClick={ () => setLocalStorage(recipeData, isMeal) }
+        >
           <img
             src={ whiteHeartIcon }
             alt="favorite button"
