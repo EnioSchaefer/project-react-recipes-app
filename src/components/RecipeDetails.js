@@ -11,6 +11,7 @@ export default function RecipeDetails() {
     idRecipe, setIsMeal, setIdRecipe } = useContext(RecipeContext);
   const [embedId, setEmbedId] = useState(null);
   const [carouselList, setCarouselList] = useState(null);
+  const doneRecipesLocalStorage = [];
   const history = useHistory();
   const path = history.location.pathname;
   const id = path.split('/')[2];
@@ -75,18 +76,21 @@ export default function RecipeDetails() {
           />
         </div>
         <div className="recipe-name">
-          <p data-testid="recipe-title">{ recipeData[nameOf] }</p>
+          <h1 data-testid="recipe-title">{ recipeData[nameOf] }</h1>
         </div>
-        {meal ? <p data-testid="recipe-category">{ recipeData.strCategory }</p>
+        <button type="button" data-testid="favorite-btn">
+          Favorite
+        </button>
+        <button type="button" data-testid="share-btn">
+          Share
+        </button>
+        {meal ? <h4 data-testid="recipe-category">{ recipeData.strCategory }</h4>
           : (
-            <p data-testid="recipe-category">
-              {
-                `${recipeData.strCategory}, ${recipeData.strAlcoholic}`
-              }
-            </p>) }
-        <p data-testid="recipe-category">{ recipeData.strCategory }</p>
+            <h4 data-testid="recipe-category">
+              { `${recipeData.strCategory}, ${recipeData.strAlcoholic}`}
+            </h4>) }
         <div className="ingredientes-main">
-          <p>Ingredientes</p>
+          <h3>Ingredientes</h3>
           <div className="ingredients">
             {ingredients.map((ingredient, index) => (
               <p
@@ -98,7 +102,7 @@ export default function RecipeDetails() {
           </div>
         </div>
         <div className="instructions-main">
-          <p>Instructions</p>
+          <h3>Instructions</h3>
           <div className="instructions">
 
             <p data-testid="instructions">{ recipeData.strInstructions }</p>
@@ -107,7 +111,7 @@ export default function RecipeDetails() {
         <div className="Video">
           {embedId && (
             <div>
-              <p>Video</p>
+              <h3>Video</h3>
               <iframe
                 title={ recipeData[nameOf] }
                 data-testid="video"
@@ -116,14 +120,13 @@ export default function RecipeDetails() {
             </div>
           )}
         </div>
+        <h3>Recomendations</h3>
         <div className="carouselCard">
           <div className="carousel">
             {carouselList && carouselList.map((item, index) => index < renderCaroucel && (
-
               <Link
                 to={ `/${recomendationOf}/${item[!isMeal ? 'idMeal' : 'idDrink']}` }
                 key={ index }
-
               >
                 <div className="img-carousel">
                   <img
@@ -139,13 +142,26 @@ export default function RecipeDetails() {
             ))}
           </div>
         </div>
-        <button
-          type="button"
-          data-testid="start-recipe-btn"
-          className="start-btn"
-        >
-          Start Recipe
-        </button>
+        {
+          (doneRecipesLocalStorage.length > 0) ? (
+            <button
+              type="button"
+              data-testid="start-recipe-btn"
+              className="start-btn"
+              onClick={ () => history.push(`/${dataOf}/${recipeData[idOf]}/in-progress`) }
+            >
+              Start Recipe
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="start-btn"
+              onClick={ () => history.push(`/${dataOf}/${recipeData[idOf]}/in-progress`) }
+            >
+              Continue Recipe
+            </button>
+          )
+        }
       </div>
     );
   }
