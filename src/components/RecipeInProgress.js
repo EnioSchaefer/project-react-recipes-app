@@ -87,7 +87,6 @@ function RecipeInProgress() {
                   data-testid={ `${index}-ingredient-name-and-measure` }
                 >
                   <input
-
                     type="checkbox"
                     id="checkbox"
                   />
