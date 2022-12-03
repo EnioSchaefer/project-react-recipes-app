@@ -10,6 +10,7 @@ export function RecipeProvider({ children }) {
   const [idRecipe, setIdRecipe] = useState(null);
   const [isMeal, setIsMeal] = useState(null);
   const [ingredients, setIngredients] = useState([]);
+  const [checkedIngredients, setCheckedIngredients] = useState(false);
 
   const value = useMemo(() => ({
     idRecipe,
@@ -22,7 +23,9 @@ export function RecipeProvider({ children }) {
     setIsMeal,
     ingredients,
     setIngredients,
-  }), [recipeData, filterCategory, idRecipe, isMeal, ingredients]);
+    checkedIngredients,
+    setCheckedIngredients,
+  }), [recipeData, filterCategory, idRecipe, isMeal, ingredients, checkedIngredients]);
 
   return (
     <RecipeContext.Provider value={ value }>

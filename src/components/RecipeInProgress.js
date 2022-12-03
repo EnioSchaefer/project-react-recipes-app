@@ -7,7 +7,11 @@ import './RecipeInProgress.css';
 function RecipeInProgress() {
   const { recipeData, isMeal, ingredients,
     setIngredients, setRecipeData,
-    idRecipe, setIsMeal, setIdRecipe } = useContext(RecipeContext);
+    idRecipe,
+    setIsMeal,
+    setIdRecipe,
+    setCheckedIngredients,
+    checkedIngredients } = useContext(RecipeContext);
   const [embedId, setEmbedId] = useState(null);
   const history = useHistory();
   const path = history.location.pathname;
@@ -16,6 +20,8 @@ function RecipeInProgress() {
   const imageOf = isMeal ? 'strMealThumb' : 'strDrinkThumb';
   const nameOf = isMeal ? 'strMeal' : 'strDrink';
   const idOf = isMeal ? 'idMeal' : 'idDrink';
+  const style = { textDecoration: 'line-through solid rgb(0, 0, 0)' };
+  const noStyle = { textDecoration: 'none' };
 
   useEffect(() => {
     const setData = async () => {
@@ -48,6 +54,16 @@ function RecipeInProgress() {
       }
     }
   }, [recipeData, setIngredients, meal]);
+
+  const handleCheck = ({ target }) => {
+    const { name, checked } = target;
+    console.log(name);
+    if (checked) {
+      setCheckedIngredients({ ...checkedIngredients, [name]: true });
+    } else {
+      setCheckedIngredients({ ...checkedIngredients, [name]: false });
+    }
+  };
 
   if (recipeData) {
     return (
@@ -82,13 +98,18 @@ function RecipeInProgress() {
                 htmlFor="checkbox"
                 key={ index }
                 data-testid={ `${index}-ingredient-step` }
+                style={ (checkedIngredients[ingredient.name]) ? style : noStyle }
               >
                 <p
                   data-testid={ `${index}-ingredient-name-and-measure` }
                 >
                   <input
+                    // className={ checkedIngredients ? 'sublinha' : null }
                     type="checkbox"
                     id="checkbox"
+                    onChange={ (e) => handleCheck(e) }
+                    name={ ingredient.name }
+
                   />
 
                   {`${ingredient.quantity} ${ingredient.name}`}

@@ -78,3 +78,9 @@ left: 12px;
 top: 911px;
 border-radius: 0px;
 }
+
+.sublinha{
+
+  text-decoration: line-through solid rgb(0, 0, 0)
+
+}
