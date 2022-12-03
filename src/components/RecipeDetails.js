@@ -1,16 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
+import shareIcon from '../images/searchIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import RecipeContext from '../context/RecipeContext';
 import fetchApiRecipe from '../service/fechApiRecipe';
 import fetchData from '../service/fetchData';
+import setLocalStorage from '../service/setLocalStorage';
 import './RecipeDetails.css';
 
 export default function RecipeDetails() {
   const { recipeData, isMeal, ingredients,
-    setIngredients, setRecipeData,
-    idRecipe, setIsMeal, setIdRecipe } = useContext(RecipeContext);
+    setIngredients, setRecipeData, setIsMeal, setIdRecipe } = useContext(RecipeContext);
   const [embedId, setEmbedId] = useState(null);
   const [carouselList, setCarouselList] = useState(null);
+  const [showCopyMessage, setShowCopyMessage] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const doneRecipesLocalStorage = [];
   const history = useHistory();
   const path = history.location.pathname;
@@ -25,12 +31,17 @@ export default function RecipeDetails() {
 
   useEffect(() => {
     const setData = async () => {
+      const localStg = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      const found = localStg
+        ? localStg.find((favRecipe) => favRecipe.id === id) : false;
+      if (found) setIsFavorite(true);
+
       const data = await fetchData(id, meal);
       setRecipeData(await data);
       setIsMeal(meal); setIdRecipe(data[idOf]);
     };
     setData();
-  }, [setRecipeData, idRecipe, isMeal, id, meal, idOf, setIdRecipe, setIsMeal]);
+  }, [id, idOf, meal, setIdRecipe, setIsMeal, setRecipeData]);
 
   useEffect(() => {
     const setDataCarousel = async () => {
@@ -53,7 +64,6 @@ export default function RecipeDetails() {
 
       const recipe = ingredientsList
         .map((ingredient, i) => ({ quantity: quantities[i], name: ingredient }));
-
       setIngredients(recipe);
 
       if (meal) {
@@ -63,13 +73,20 @@ export default function RecipeDetails() {
     }
   }, [recipeData, setIngredients, meal]);
 
+  const shareLink = () => {
+    copy(window.location.href);
+    setShowCopyMessage(true);
+    const fiveSeconds = 5000;
+    setTimeout(() => {
+      setShowCopyMessage(false);
+    }, fiveSeconds);
+  };
+
   if (recipeData) {
     return (
       <div className="page-details">
         <div className="imgPrincipal">
           <img
-            width="360px"
-            height="160px"
             src={ recipeData[imageOf] }
             alt={ recipeData[nameOf] }
             data-testid="recipe-photo"
@@ -78,12 +95,28 @@ export default function RecipeDetails() {
         <div className="recipe-name">
           <h1 data-testid="recipe-title">{ recipeData[nameOf] }</h1>
         </div>
-        <button type="button" data-testid="favorite-btn">
-          Favorite
+        <button
+          type="button"
+          data-testid="favorite-btn"
+          onClick={ () => {
+            setLocalStorage(recipeData, isMeal);
+            setIsFavorite(!isFavorite);
+          } }
+          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+        >
+          <img
+            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            alt="favorite button"
+          />
         </button>
-        <button type="button" data-testid="share-btn">
-          Share
+        <button type="button" onClick={ shareLink } data-testid="share-btn">
+          <img
+            src={ shareIcon }
+            alt="share button"
+          />
         </button>
+        {showCopyMessage
+          && <span style={ { fontSize: '10px' } }>Link copied!</span>}
         {meal ? <h4 data-testid="recipe-category">{ recipeData.strCategory }</h4>
           : (
             <h4 data-testid="recipe-category">
