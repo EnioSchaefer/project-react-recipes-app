@@ -55,6 +55,27 @@ function RecipeInProgress() {
     }
   }, [recipeData, setIngredients, meal]);
 
+  const finishRecipe = () => {
+    const date = new Date();
+    const localData = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+    const tagsArray = recipeData.strTags ? recipeData.strTags.split(',') : [];
+    console.log(tagsArray);
+    const obj = [{
+      id,
+      type: isMeal ? 'meal' : 'drink',
+      nationality: isMeal ? recipeData.strArea : '',
+      category: recipeData.strCategory,
+      alcoholicOrNot: isMeal ? '' : recipeData.strAlcoholic,
+      name: recipeData[isMeal ? 'strMeal' : 'strDrink'],
+      image: recipeData[isMeal ? 'strMealThumb' : 'strDrinkThumb'],
+      doneDate: date.toISOString(),
+      tags: tagsArray,
+    }];
+    console.log(obj);
+    localStorage.setItem('doneRecipes', JSON.stringify([...localData, ...obj]));
+    history.push('/done-recipes');
+  };
+
   const handleCheck = ({ target }) => {
     const { name, checked } = target;
     console.log(name);
@@ -141,6 +162,7 @@ function RecipeInProgress() {
           type="button"
           data-testid="finish-recipe-btn"
           className="finish-btn"
+          onClick={ finishRecipe }
         >
           Finalizar
         </button>
