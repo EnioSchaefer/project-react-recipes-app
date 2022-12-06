@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import searchIconSVG from '../images/searchIcon.svg';
 import profileIconSVG from '../images/profileIcon.svg';
-// import SearchBar from './SearchBar';
+import SearchBar from './SearchBar';
 
 export default function Header({ title, showSearch }) {
   const history = useHistory();
@@ -23,42 +23,39 @@ export default function Header({ title, showSearch }) {
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={ toProfile }
-      >
-        <img
-          data-testid="profile-top-btn"
-          src={ profileIconSVG }
-          alt="SVG profile"
-        />
-      </button>
-      {showSearch && (
+      <header>
         <button
           type="button"
-          onClick={ showAndHideInput }
-          data-testid="search-button"
+          onClick={ toProfile }
         >
           <img
-            data-testid="search-top-btn"
-            src={ searchIconSVG }
-            alt="SVG search"
+            data-testid="profile-top-btn"
+            src={ profileIconSVG }
+            alt="SVG profile"
           />
         </button>
-      )}
-      <h1
-        data-testid="page-title"
-      >
-        { title }
-      </h1>
-      {showInput && (
-        <input
-          data-testid="search-input"
-          type="text"
-        />
-
-      )}
-
+        {showSearch && (
+          <button
+            type="button"
+            onClick={ showAndHideInput }
+            data-testid="search-button"
+          >
+            <img
+              data-testid="search-top-btn"
+              src={ searchIconSVG }
+              alt="SVG search"
+            />
+          </button>
+        )}
+        <h1
+          data-testid="page-title"
+        >
+          { title }
+        </h1>
+        {showInput && (
+          <SearchBar />
+        )}
+      </header>
     </div>
   );
 }
