@@ -4,7 +4,9 @@ import './App.css';
 import RecipeDetails from './components/RecipeDetails';
 import RecipeInProgress from './components/RecipeInProgress';
 import MainRecipes from './pages/MainRecipes';
-import DoneRecipe from './components/DoneRecipe';
+
+import Login from './components/Login';
+import TelaPrincipal from './components/TelaPrincipal';
 
 function App() {
   return (
@@ -15,7 +17,7 @@ function App() {
       <Route exact path="/meals/:id" component={ RecipeDetails } />
       <Route exact path="/drinks/:id/in-progress" component={ RecipeInProgress } />
       <Route exact path="/meals/:id/in-progress" component={ RecipeInProgress } />
-      <Route exact path="/done-recipes" component={ DoneRecipe } />
+      <Route exact path="/done-recipes" component={ DoneRecipes } />
     </Switch>
   );
 }

@@ -1,11 +1,15 @@
 .page-details {
   display: flex;
   flex-direction: column;
-  height: 640px;
-  justify-content: space-between;
 }
 
 .imgPrincipal {
+  height: 100vw;
+  width: 100vw;
+}
+
+.imgPrincipal img {
+  height: 100vw;
   width: 100vw;
 }
 
@@ -48,6 +52,7 @@
   width: 335px;
   word-wrap: break-word;
 
+  /* font-family: 'Epilogue'; */
 }
 
 .instructions-main {
