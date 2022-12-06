@@ -9,6 +9,7 @@ import fetchApiRecipe from '../service/fechApiRecipe';
 import fetchData from '../service/fetchData';
 import setLocalStorage from '../service/setLocalStorage';
 import './RecipeDetails.css';
+import getVerification from '../service/recipeDetaisVerification';
 
 export default function RecipeDetails() {
   const { recipeData, isMeal, ingredients,
@@ -22,12 +23,12 @@ export default function RecipeDetails() {
   const path = history.location.pathname;
   const id = path.split('/')[2];
   const meal = path.includes('/meals');
-  const imageOf = isMeal ? 'strMealThumb' : 'strDrinkThumb';
-  const nameOf = isMeal ? 'strMeal' : 'strDrink';
-  const idOf = isMeal ? 'idMeal' : 'idDrink';
-  const dataOf = isMeal ? 'meals' : 'drinks';
-  const recomendationOf = !isMeal ? 'meals' : 'drinks';
-  const renderCaroucel = 6;
+  const { imageOf,
+    nameOf,
+    idOf,
+    dataOf,
+    recomendationOf,
+    renderCaroucel } = getVerification(meal);
 
   useEffect(() => {
     const setData = async () => {
