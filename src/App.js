@@ -4,7 +4,9 @@ import './App.css';
 import RecipeDetails from './components/RecipeDetails';
 import RecipeInProgress from './components/RecipeInProgress';
 import MainRecipes from './pages/MainRecipes';
-import DoneRecipes from './pages/DoneRecipes';
+
+import Login from './components/Login';
+import TelaPrincipal from './components/TelaPrincipal';
 
 function App() {
   return (
