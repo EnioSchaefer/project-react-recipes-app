@@ -83,3 +83,18 @@
   text-decoration: line-through solid black;
 
 }
+
+.finish-btn {
+  background-color: rgba(248, 248, 41, 0.8);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-width: 0;
+  bottom: 0;
+  color: #5f5f5f;
+  font-family: TimesNewRoman , Times , serif;
+  font-size: 25px;
+  height: 10vh;
+  letter-spacing: 1.5px;
+  position: fixed;
+  width: 100vw;
+}

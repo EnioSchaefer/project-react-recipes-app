@@ -137,7 +137,13 @@ function RecipeInProgress() {
             </div>
           )}
         </div>
-        <button type="button" data-testid="finish-recipe-btn">Finalizar</button>
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+          className="finish-btn"
+        >
+          Finalizar
+        </button>
 
       </div>
     );
