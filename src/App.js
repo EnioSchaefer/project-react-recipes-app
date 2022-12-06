@@ -4,13 +4,13 @@ import './App.css';
 import RecipeDetails from './components/RecipeDetails';
 import RecipeInProgress from './components/RecipeInProgress';
 import MainRecipes from './pages/MainRecipes';
-
 import Login from './components/Login';
-import TelaPrincipal from './components/TelaPrincipal';
+import DoneRecipes from './components/DoneRecipe';
 
 function App() {
   return (
     <Switch>
+      <Route exact path="/" component={ Login } />
       <Route exact path="/drinks" component={ MainRecipes } />
       <Route exact path="/meals" component={ MainRecipes } />
       <Route exact path="/drinks/:id" component={ RecipeDetails } />
