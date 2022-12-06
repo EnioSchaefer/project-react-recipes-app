@@ -1,10 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from '../App';
+// import RecipeProvider from '../context/RecipeContext';
 
-test('Farewell, front-end', () => {
-  // Este arquivo pode ser modificado ou deletado sem problemas
-  render(<App />);
-  const linkElement = screen.getByText(/TRYBE/i);
-  expect(linkElement).toBeInTheDocument();
+test('Testes da Tela de receita em progresso', () => {
+  render(
+    <App />,
+  );
+  const imgRecipe = screen.getByTestId(/imageOf/i);
+  expect(imgRecipe).toBeInTheDocument();
 });
