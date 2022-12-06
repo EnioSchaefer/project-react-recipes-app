@@ -1,15 +1,11 @@
 .page-details {
   display: flex;
   flex-direction: column;
+  height: 640px;
+  justify-content: space-between;
 }
 
 .imgPrincipal {
-  height: 100vw;
-  width: 100vw;
-}
-
-.imgPrincipal img {
-  height: 100vw;
   width: 100vw;
 }
 
@@ -52,7 +48,6 @@
   width: 335px;
   word-wrap: break-word;
 
-  /* font-family: 'Epilogue'; */
 }
 
 .instructions-main {
@@ -84,30 +79,12 @@
   width: 336px;
 }
 
-.carouselCard {
-  display: flex;
-  gap: 10px;
-  left: 12px;
-  overflow-y: auto;
-  position: absolute;
-  top: 1151px;
-  width: 90%;
+.sublinha {
+  text-decoration: line-through solid black;
+
 }
 
-.carousel {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-}
-
-.img-carousel img {
-  border-radius: 10px;
-  height: 135px;
-  padding: 5px;
-  width: 155px;
-}
-
-.start-btn {
+.finish-btn {
   background-color: rgba(248, 248, 41, 0.8);
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
