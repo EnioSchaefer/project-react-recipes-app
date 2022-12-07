@@ -1,20 +1,19 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-// import Drinks from './pages/Drinks';
-// import Meals from './pages/Meals';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import MainRecipes from './pages/MainRecipes';
+import Login from './components/Login';
 
 function App() {
   return (
     <div>
       <Switch>
-        <Route exact path="/" />
-        <Route exact path="meals/:id" />
-        <Route exact path="/drinks/:id" />
+        <Route exact path="/" component={ Login } />
+        <Route exact path="/drinks/:id" component={ RecipeDetails } />
+        <Route exact path="/meals/:id" component={ RecipeDetails } />
         <Route exact path="/meals/:id/in-progress" />
         <Route exact path="/drinks/:id/in-progress" />
         <Route exact path="/drinks" component={ MainRecipes } />
