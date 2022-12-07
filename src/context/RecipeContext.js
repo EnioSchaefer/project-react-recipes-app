@@ -12,11 +12,16 @@ export function RecipeProvider({ children }) {
     search: '',
     type: '',
   });
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState(null);
   const [searchInput, setSearchInput] = useState('');
   const [path, setPath] = useState('');
   const [radio, setRadio] = useState('');
   const history = useHistory();
+  const [recipeData, setRecipeData] = useState(null);
+  const [filterCategory, setFilterCategory] = useState(null);
+  const [idRecipe, setIdRecipe] = useState(null);
+  const [isMeal, setIsMeal] = useState(null);
+  const [ingredients, setIngredients] = useState([]);
 
   useEffect(() => {
     const fetchUrl = (request, url, id) => {
@@ -53,7 +58,7 @@ export function RecipeProvider({ children }) {
     searchBy, path, history,
   ]);
 
-  const values = useMemo(() => (
+  const value = useMemo(() => (
     { recipes,
       setRecipes,
       searchInput,
@@ -63,15 +68,26 @@ export function RecipeProvider({ children }) {
       path,
       setPath,
       searchBy,
-      setSearchBy }
+      setSearchBy,
+      idRecipe,
+      setIdRecipe,
+      filterCategory,
+      setFilterCategory,
+      recipeData,
+      setRecipeData,
+      isMeal,
+      setIsMeal,
+      ingredients,
+      setIngredients,
+    }
   ), [recipes,
     searchInput,
     radio,
     path,
-    searchBy]);
+    searchBy, recipeData, filterCategory, idRecipe, isMeal, ingredients]);
 
   return (
-    <RecipeContext.Provider value={ values }>
+    <RecipeContext.Provider value={ value }>
       {children}
     </RecipeContext.Provider>
   );
