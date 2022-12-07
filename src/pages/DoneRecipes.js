@@ -1,9 +1,11 @@
 // import React, { useContext, useEffect, useState } from 'react';
 // import { Link, useHistory } from 'react-router-dom';
+// import Header from '../components/Header';
 
 // export default function DoneRecipes() {
 //   return (
 //     <div>
+//       <Header title="Done Recipes" showSearch={ false } />
 //       <button
 //         type="button"
 //         data-testid="filter-by-all-btn"
