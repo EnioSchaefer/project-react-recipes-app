@@ -1,4 +1,5 @@
 import { createContext, useMemo, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import fetchDrinks from '../service/fetchDrinks';
 import fetchMeals from '../service/fetchMeals';
 
@@ -15,8 +16,22 @@ export function RecipeProvider({ children }) {
   const [searchInput, setSearchInput] = useState('');
   const [path, setPath] = useState('');
   const [radio, setRadio] = useState('');
+  const history = useHistory();
 
   useEffect(() => {
+    const fetchUrl = (request, url, id) => {
+      if (request[url] === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+        return;
+      }
+      if (request[url].length === 1) {
+        setRecipes(request[url]);
+        const oneItem = request[url][0][id];
+        history.push(`/${url}/${oneItem}`);
+      } else if (request[url].length > 1) {
+        setRecipes(request[url]);
+      }
+    };
     async function fetchApi() {
       const { search, type } = searchBy;
       if (search.length > 1 && type === 'first-letter') {
@@ -25,17 +40,17 @@ export function RecipeProvider({ children }) {
       }
       if (path === '/drinks') {
         const request = await fetchDrinks(search, type);
-        return request;
+        fetchUrl(request, 'drinks', 'idDrink');
       }
       if (path === '/meals') {
         const request = await fetchMeals(search, type);
-        return request;
+        fetchUrl(request, 'meals', 'idMeal');
       }
     }
     fetchApi();
     // console.log(fetchApi());
   }, [
-    searchBy, path,
+    searchBy, path, history,
   ]);
 
   const values = useMemo(() => (

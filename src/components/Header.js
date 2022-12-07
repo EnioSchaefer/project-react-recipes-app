@@ -13,14 +13,6 @@ export default function Header({ title, showSearch }) {
     history.push('/profile');
   };
 
-  const showAndHideInput = () => {
-    if (showInput === false) {
-      setShowInput(true);
-    } if (showInput === true) {
-      setShowInput(false);
-    }
-  };
-
   return (
     <div>
       <header>
@@ -37,7 +29,7 @@ export default function Header({ title, showSearch }) {
         {showSearch && (
           <button
             type="button"
-            onClick={ showAndHideInput }
+            onClick={ () => setShowInput(!showInput) }
             data-testid="search-button"
           >
             <img
