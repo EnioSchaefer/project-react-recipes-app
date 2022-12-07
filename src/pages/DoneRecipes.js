@@ -1,4 +1,5 @@
 import copy from 'clipboard-copy';
+import { Link, useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import shareIcon from '../images/shareIcon.svg';
 
@@ -59,8 +60,16 @@ export default function DoneRecipes() {
       {
         doneRecipesList && doneRecipesList.map((item, index) => (
           <div key={ index }>
-            <img src={ item.image } alt="" data-testid={ `${index}-horizontal-image` } />
-            <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
+            <Link
+              to={ `${item.type}s/${item.id}` }
+            >
+              <img
+                src={ item.image }
+                alt=""
+                data-testid={ `${index}-horizontal-image` }
+              />
+              <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
+            </Link>
             <p data-testid={ `${index}-horizontal-done-date` }>{item.doneDate}</p>
             {item.type === 'meal' ? (
               <div>
