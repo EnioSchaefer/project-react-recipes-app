@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import copy from 'clipboard-copy';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
@@ -11,11 +11,8 @@ export default function FavoriteRecipes() {
   const [favRecipes, setFavRecipes] = useState(
     JSON.parse(localStorage.getItem('favoriteRecipes')),
   );
+  const [filtered, setFiltered] = useState(null);
   const { isMeal } = useContext(RecipeContext);
-
-  useEffect(() => {
-
-  }, [favRecipes]);
 
   const shareLink = (type, id) => {
     copy(`http://localhost:3000/${type}s/${id}`);
@@ -31,29 +28,37 @@ export default function FavoriteRecipes() {
     setFavRecipes(JSON.parse(localStorage.getItem('favoriteRecipes')));
   };
 
+  const filterRecipes = (type) => {
+    setFiltered(type === 'all'
+      ? null : favRecipes.filter((recipe) => recipe.type === type));
+  };
+
   return (
     <div>
       <Header title="Favorite Recipes" showSearch={ false } />
       <button
         type="button"
         data-testid="filter-by-meal-btn"
+        onClick={ () => filterRecipes('meal') }
       >
         Meals
       </button>
       <button
         type="button"
         data-testid="filter-by-drink-btn"
+        onClick={ () => filterRecipes('drink') }
       >
         Drinks
       </button>
       <button
         type="button"
         data-testid="filter-by-all-btn"
+        onClick={ () => filterRecipes('all') }
       >
         All
       </button>
       {
-        favRecipes.map((item, index) => (
+        (filtered || favRecipes).map((item, index) => (
           <div key={ index }>
             <img src={ item.image } alt="" data-testid={ `${index}-horizontal-image` } />
             <p data-testid={ `${index}-horizontal-top-text` }>
