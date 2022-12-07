@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react';
 import copy from 'clipboard-copy';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import setLocalStorage from '../service/setLocalStorage';
 import RecipeContext from '../context/RecipeContext';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import './FavoriteRecipes.css';
 
 export default function FavoriteRecipes() {
   const [showCopyMessage, setShowCopyMessage] = useState(false);
@@ -60,11 +62,20 @@ export default function FavoriteRecipes() {
       {
         (filtered || favRecipes).map((item, index) => (
           <div key={ index }>
-            <img src={ item.image } alt="" data-testid={ `${index}-horizontal-image` } />
+            <Link to={ `/${item.type}s/${item.id}` }>
+              <img
+                className="favorite-image"
+                src={ item.image }
+                alt={ `${item.name}` }
+                data-testid={ `${index}-horizontal-image` }
+              />
+            </Link>
             <p data-testid={ `${index}-horizontal-top-text` }>
               {`${item.nationality} - ${item.category} - ${item.alcoholicOrNot}`}
             </p>
-            <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
+            <Link to={ `/${item.type}s/${item.id}` }>
+              <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
+            </Link>
             <p data-testid={ `${index}-horizontal-done-date` }>{item.doneDate}</p>
             <button
               type="button"
