@@ -1,5 +1,5 @@
-const setLocalStorage = (recipe, isMeal) => {
-  const id = recipe[isMeal ? 'idMeal' : 'idDrink'];
+const setLocalStorage = (recipe, isMeal, isPrep) => {
+  const id = isPrep ? recipe.id : recipe[isMeal ? 'idMeal' : 'idDrink'];
 
   const localStg = JSON.parse(localStorage.getItem('favoriteRecipes'));
   const currLocalStg = localStg || [];
