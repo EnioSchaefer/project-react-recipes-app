@@ -6,6 +6,7 @@ import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import MainRecipes from './pages/MainRecipes';
 import Login from './components/Login';
+import RecipeDetails from './components/RecipeDetails';
 
 function App() {
   return (

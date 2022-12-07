@@ -80,11 +80,9 @@ export function RecipeProvider({ children }) {
       ingredients,
       setIngredients,
     }
-  ), [recipes,
-    searchInput,
-    radio,
-    path,
-    searchBy, recipeData, filterCategory, idRecipe, isMeal, ingredients]);
+  ), [recipes, searchInput, radio, path,
+    searchBy, recipeData, filterCategory,
+    idRecipe, isMeal, ingredients]);
 
   return (
     <RecipeContext.Provider value={ value }>
