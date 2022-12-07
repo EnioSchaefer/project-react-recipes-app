@@ -5,7 +5,7 @@ import RecipeDetails from './components/RecipeDetails';
 import RecipeInProgress from './components/RecipeInProgress';
 import MainRecipes from './pages/MainRecipes';
 import Login from './components/Login';
-import DoneRecipes from './components/DoneRecipe';
+import DoneRecipes from './pages/DoneRecipes';
 
 function App() {
   return (
