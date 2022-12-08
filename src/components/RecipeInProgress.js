@@ -1,7 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import RecipeContext from '../context/RecipeContext';
 import fetchData from '../service/fetchData';
+import setLocalStorage from '../service/setLocalStorage';
 import './RecipeInProgress.css';
 
 function RecipeInProgress() {
@@ -13,6 +18,8 @@ function RecipeInProgress() {
     setCheckedIngredients,
     checkedIngredients } = useContext(RecipeContext);
   const [embedId, setEmbedId] = useState(null);
+  const [showCopyMessage, setShowCopyMessage] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const history = useHistory();
   const path = history.location.pathname;
   const id = path.split('/')[2];
@@ -31,6 +38,20 @@ function RecipeInProgress() {
     };
     setData();
   }, [setRecipeData, idRecipe, isMeal, id, meal, idOf, setIdRecipe, setIsMeal]);
+
+  useEffect(() => {
+    const setData = async () => {
+      const localStg = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      const found = localStg
+        ? localStg.find((favRecipe) => favRecipe.id === id) : false;
+      if (found) setIsFavorite(true);
+
+      const data = await fetchData(id, meal);
+      setRecipeData(await data);
+      setIsMeal(meal); setIdRecipe(data[idOf]);
+    };
+    setData();
+  }, [id, idOf, meal, setIdRecipe, setIsMeal, setRecipeData]);
 
   useEffect(() => {
     if (recipeData) {
@@ -86,6 +107,16 @@ function RecipeInProgress() {
     }
   };
 
+  const shareLink = () => {
+    const addres = window.location.href.split('/in-progress')[0];
+    copy(addres);
+    setShowCopyMessage(true);
+    const fiveSeconds = 5000;
+    setTimeout(() => {
+      setShowCopyMessage(false);
+    }, fiveSeconds);
+  };
+
   if (recipeData) {
     return (
       <div className="page-details">
@@ -102,8 +133,39 @@ function RecipeInProgress() {
         <div className="recipe-name">
           <h1 data-testid="recipe-title">{ recipeData[nameOf] }</h1>
         </div>
-        <button type="button" data-testid="share-btn">Compartilhar</button>
-        <button type="button" data-testid="favorite-btn">Favoritar</button>
+        <button
+          className="favorite-bt"
+          type="button"
+          data-testid="favorite-btn"
+          onClick={ () => {
+            setLocalStorage(recipeData, isMeal);
+            setIsFavorite(!isFavorite);
+          } }
+          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+        >
+          <img
+            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            alt="favorite button"
+          />
+        </button>
+        <button
+          className="share-bt"
+          type="button"
+          onClick={ shareLink }
+          data-testid="share-btn"
+        >
+          <img
+            src={ shareIcon }
+            alt="share button"
+          />
+        </button>
+        {showCopyMessage
+          && <span style={ { fontSize: '10px' } }>Link copied!</span>}
+        {meal ? <h4 data-testid="recipe-category">{ recipeData.strCategory }</h4>
+          : (
+            <h4 data-testid="recipe-category">
+              { `${recipeData.strCategory}, ${recipeData.strAlcoholic}`}
+            </h4>) }
         {meal ? <h1 data-testid="recipe-category">{ recipeData.strCategory }</h1>
           : (
             <p data-testid="recipe-category">

@@ -98,3 +98,19 @@
   position: fixed;
   width: 100vw;
 }
+
+.favorite-bt {
+  bottom: 96.72%;
+  left: 85.56%;
+  position: absolute;
+  right: 8.09%;
+  top: 1.59%;
+}
+
+.share-bt {
+  bottom: 96.66%;
+  left: 76.95%;
+  position: absolute;
+  right: 17.5%;
+  top: 1.67%;
+}
