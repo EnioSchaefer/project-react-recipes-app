@@ -1,9 +1,9 @@
 import React from 'react';
 import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from '../App';
 import renderWithRouter from './Helpers/renderWith';
 import fetch from '../../cypress/mocks/fetch';
+import App from '../App';
 
 describe('Testa a tela de Recipe Details', () => {
   afterEach(() => {

@@ -4,7 +4,6 @@ import Recipes from '../components/Recipes';
 function MainRecipes() {
   return (
     <div>
-      <p>MainRecipes Page</p>
       <Recipes />
     </div>
   );
