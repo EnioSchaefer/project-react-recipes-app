@@ -1,5 +1,5 @@
 import copy from 'clipboard-copy';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import shareIcon from '../images/shareIcon.svg';
 

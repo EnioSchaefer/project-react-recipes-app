@@ -1,13 +1,16 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
+// import userEvent from '@testing-library/user-event';
 import App from '../App';
-// import RecipeProvider from '../context/RecipeContext';
+import renderWithRouter from './Helpers/renderWith';
 
-test('Testes da Tela de receita em progresso', () => {
-  renderWithRouter(
-    <App />,
+describe('Testa a tela de RecipeInprogress', () => {
+  it.skip('verifica os botões', async () => {
+    const { history } = renderWithRouter(<App />);
 
-  );
-  const imgRecipe = screen.getByTestId(/imageOf/i);
-  expect(imgRecipe).toBeInTheDocument();
+    act(() => { history.push('/meals/52977'); });
+
+    const btnStartRecipe = await screen.findByTestId('finish-recipe-btn');
+    expect(btnStartRecipe).toBeInTheDocument();
+  });
 });

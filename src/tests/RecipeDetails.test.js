@@ -1,0 +1,74 @@
+import React from 'react';
+import { screen, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import App from '../App';
+import renderWithRouter from './Helpers/renderWith';
+import fetch from '../../cypress/mocks/fetch';
+
+describe('Testa a tela de Recipe Details', () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  beforeEach(() => {
+    jest.spyOn(global, 'fetch').mockImplementation(fetch);
+  });
+
+  it('verifica meals/id', async () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push('/meals/52771'));
+
+    const mealRecipe = await screen.findByTestId('recipe-title');
+    expect(mealRecipe).toBeInTheDocument();
+    expect(mealRecipe).toHaveTextContent('Spicy Arrabiata Penne');
+
+    const mealIngred = await screen.findByTestId('0-ingredient-name-and-measure');
+    expect(mealIngred).toBeInTheDocument();
+    expect(mealIngred).toHaveTextContent('penne rigate');
+
+    const ytVideo = await screen.findByTestId('video');
+    expect(ytVideo).toBeInTheDocument();
+  });
+
+  it('verifica drinks/id', async () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push('/drinks/178319'));
+
+    const drinkRecipe = await screen.findByTestId('recipe-title');
+    expect(drinkRecipe).toBeInTheDocument();
+    expect(drinkRecipe).toHaveTextContent('Aquamarine');
+
+    const carousel = await screen.findByTestId('0-recommendation-card');
+    expect(carousel).toBeInTheDocument();
+    const carousel1 = await screen.findByTestId('1-recommendation-card');
+    expect(carousel1).toBeInTheDocument();
+  });
+
+  it('Verifica favoritos e share', async () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push('/meals/52771'));
+
+    const fav = await screen.findByTestId('favorite-btn');
+    expect(fav).toBeInTheDocument();
+    expect(fav).toHaveAttribute('src', 'whiteHeartIcon.svg');
+    userEvent.click(fav);
+    expect(fav).toHaveAttribute('src', 'blackHeartIcon.svg');
+
+    // window.document.execCommand = jest.fn();
+    const share = screen.getByTestId('share-btn');
+    expect(share).toBeInTheDocument();
+    // userEvent.click(share);
+    // expect(window.execCommand).toHaveBeenCalledWith('copy');
+    // screen.getByText('Link copied!');
+  });
+
+  it('Verifica Start Button', async () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push('/drinks/178319'));
+
+    const startBtn = await screen.findByTestId('start-recipe-btn');
+    expect(startBtn).toBeInTheDocument();
+    userEvent.click(startBtn);
+    expect(history.location.pathname).toBe('/drinks/178319/in-progress');
+  });
+});
