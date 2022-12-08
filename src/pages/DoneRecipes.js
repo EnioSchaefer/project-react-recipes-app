@@ -6,6 +6,7 @@ import shareIcon from '../images/shareIcon.svg';
 export default function DoneRecipes() {
   const { isMeal } = useContext(RecipeContext);
   const doneRecipesList = JSON.parse(localStorage.getItem('doneRecipes') || '[]');
+// import Header from '../components/Header';
 
   return (
     <div>
