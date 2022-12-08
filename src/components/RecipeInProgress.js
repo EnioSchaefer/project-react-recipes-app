@@ -14,23 +14,19 @@ function RecipeInProgress() {
     setIngredients, setRecipeData,
     idRecipe,
     setIsMeal,
-    setIdRecipe,
-    setCheckedIngredients,
-    checkedIngredients } = useContext(RecipeContext);
+    setIdRecipe } = useContext(RecipeContext);
   const [embedId, setEmbedId] = useState(null);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const history = useHistory();
   const path = history.location.pathname;
   const id = path.split('/')[2];
-  const mealName = path.split('/')[1];
   const meal = path.includes('/meals');
   const imageOf = isMeal ? 'strMealThumb' : 'strDrinkThumb';
   const nameOf = isMeal ? 'strMeal' : 'strDrink';
   const idOf = isMeal ? 'idMeal' : 'idDrink';
   const style = { textDecoration: 'line-through solid rgb(0, 0, 0)' };
   const noStyle = { textDecoration: 'none' };
-  const objIgrs = '{"drinks": {}, "meals": {}}';
 
   useEffect(() => {
     const setData = async () => {
@@ -96,30 +92,25 @@ function RecipeInProgress() {
     localStorage.setItem('doneRecipes', JSON.stringify([...localData, ...obj]));
     history.push('/done-recipes');
   };
-  const handleCheck = ({ target }) => {
-    const { name, checked } = target;
-    // console.log(idRecipe);
-    if (checked) {
-      setCheckedIngredients({ ...checkedIngredients, [name]: true });
-    } else {
-      setCheckedIngredients({ ...checkedIngredients, [name]: false });
-    }
-    // localStorage.setItem('inProgressRecipes', JSON.stringify(localStg2));
-  };
-  useEffect(() => {
-    const localStg2 = JSON.parse(localStorage.getItem('inProgressRecipes') || objIgrs);
-    localStorage.setItem('inProgressRecipes', JSON.stringify(localStg2));
-  }, []);
 
-  useEffect(() => {
-    const localStg3 = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (localStg3 !== null && nameOf) {
-      const ingredientCheck = Object.keys(checkedIngredients);
-      const objRecipe = { [idRecipe]: ingredientCheck };
-      const objFinal = { ...localStg3, [mealName]: objRecipe };
-      localStorage.setItem('inProgressRecipes', JSON.stringify(objFinal));
-    }
-  }, [checkedIngredients, idRecipe, mealName, nameOf]);
+  const SaveOnLocal = (name, type) => {
+    const localStg3 = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
+    const verifica = ingredients.map((ingr) => {
+      if (ingr.name === name) ingr.checked = !ingr.checked;
+      return ingr;
+    });
+    const usedIngredients = verifica.filter((ingr) => ingr.checked && ingr.name)
+      .map((e) => e.name);
+    const drinks = localStg3.drinks ? localStg3.drinks : {};
+    const meals = localStg3.meals ? localStg3.meals : {};
+    const types = `${type}s.${idRecipe}`;
+    const newKey = { ...localStg3[types], [idRecipe]: usedIngredients };
+    const newLocalstg = type === 'meal'
+      ? { drinks, meals: newKey } : { drinks: newKey, meals };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(newLocalstg));
+    setIngredients(verifica);
+  };
+
   const shareLink = () => {
     const addres = window.location.href.split('/in-progress')[0];
     copy(addres);
@@ -192,16 +183,16 @@ function RecipeInProgress() {
                 htmlFor="checkbox"
                 key={ index }
                 data-testid={ `${index}-ingredient-step` }
-                style={ (checkedIngredients[ingredient.name]) ? style : noStyle }
+                style={ (ingredient.checked) ? style : noStyle }
               >
                 <p
                   data-testid={ `${index}-ingredient-name-and-measure` }
                 >
                   <input
                     type="checkbox"
-                    checked={ checkedIngredients[ingredient.name] }
+                    checked={ ingredient.checked }
                     id="checkbox"
-                    onChange={ (e) => handleCheck(e) }
+                    onChange={ () => SaveOnLocal(ingredient.name, ingredient.type) }
                     name={ ingredient.name }
                   />
                   {`${ingredient.quantity} ${ingredient.name}`}
@@ -235,7 +226,6 @@ function RecipeInProgress() {
         >
           Finalizar
         </button>
-
       </div>
     );
   }

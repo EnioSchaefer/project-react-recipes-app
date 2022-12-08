@@ -64,7 +64,10 @@ export default function RecipeDetails() {
         && ingredient !== false && ingredient !== null);
 
       const recipe = ingredientsList
-        .map((ingredient, i) => ({ quantity: quantities[i], name: ingredient }));
+        .map((ingredient, i) => (
+          { quantity: quantities[i] ? quantities[i] : '',
+            name: ingredient,
+            checked: false }));
       setIngredients(recipe);
 
       if (meal) {
