@@ -35,6 +35,15 @@ export default function FavoriteRecipes() {
       ? null : favRecipes.filter((recipe) => recipe.type === type));
   };
 
+  if (!filtered && !favRecipes) {
+    return (
+      <div>
+        <Header title="Favorite Recipes" showSearch={ false } />
+        <p>Sem receitas favoritas :(</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Header title="Favorite Recipes" showSearch={ false } />
