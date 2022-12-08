@@ -110,6 +110,7 @@ function RecipeInProgress() {
     const localStg2 = JSON.parse(localStorage.getItem('inProgressRecipes') || objIgrs);
     localStorage.setItem('inProgressRecipes', JSON.stringify(localStg2));
   }, []);
+  // coments
 
   useEffect(() => {
     const localStg3 = JSON.parse(localStorage.getItem('inProgressRecipes'));
