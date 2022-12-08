@@ -33,7 +33,7 @@ function Recipes() {
 
   return (
     <div>
-      <Header title="Drinks" showSearch />
+      <Header title={ meal ? 'Meals' : 'Drinks' } showSearch />
       <Categories />
 
       {(filterCategory || recipes).map((recipe, index) => index < renderAmount && (

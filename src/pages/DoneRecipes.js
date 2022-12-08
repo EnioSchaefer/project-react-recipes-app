@@ -1,15 +1,11 @@
-import React, { useContext } from 'react';
-// import { Link, useHistory } from 'react-router-dom';
-import RecipeContext from '../context/RecipeContext';
-import shareIcon from '../images/shareIcon.svg';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import Header from '../components/Header';
 
 export default function DoneRecipes() {
-  const { isMeal } = useContext(RecipeContext);
-  const doneRecipesList = JSON.parse(localStorage.getItem('doneRecipes') || '[]');
-  // import Header from '../components/Header';
-
   return (
     <div>
+      <Header title="Done Recipes" showSearch={ false } />
       <button
         type="button"
         data-testid="filter-by-all-btn"
@@ -29,16 +25,12 @@ export default function DoneRecipes() {
         Drinks
       </button>
       {
-        doneRecipesList.map((item, index) => (
+        mock.map((item, index) => (
           <div key={ index }>
             <img src={ item.image } alt="" data-testid={ `${index}-horizontal-image` } />
             <p data-testid={ `${index}-horizontal-top-text` }>{item.category}</p>
             <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
             <p data-testid={ `${index}-horizontal-done-date` }>{item.doneDate}</p>
-            {isMeal && (
-              <p data-testid={ `${index}-horizontal-top-text` }>
-                {`${item.nationality} - ${item.category}`}
-              </p>)}
             <button
               type="button"
               // onClick={ shareLink }
