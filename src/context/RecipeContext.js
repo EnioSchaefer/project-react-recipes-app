@@ -24,6 +24,22 @@ export function RecipeProvider({ children }) {
   const [ingredients, setIngredients] = useState([]);
   const [checkedIngredients, setCheckedIngredients] = useState({});
 
+
+  const value = useMemo(() => ({
+    idRecipe,
+    setIdRecipe,
+    filterCategory,
+    setFilterCategory,
+    recipeData,
+    setRecipeData,
+    isMeal,
+    setIsMeal,
+    ingredients,
+    setIngredients,
+    checkedIngredients,
+    setCheckedIngredients,
+  }), [recipeData, filterCategory, idRecipe, isMeal, ingredients, checkedIngredients]);
+
   useEffect(() => {
     const fetchUrl = (request, url, id) => {
       if (request[url] === null) {
@@ -85,7 +101,7 @@ export function RecipeProvider({ children }) {
     }
   ), [recipes, searchInput, radio, path,
     searchBy, recipeData, filterCategory,
-    idRecipe, isMeal, ingredients, checkedIngredients]);
+    idRecipe, isMeal, ingredients]);
 
   return (
     <RecipeContext.Provider value={ value }>
