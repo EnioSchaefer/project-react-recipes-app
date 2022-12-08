@@ -80,10 +80,12 @@ export function RecipeProvider({ children }) {
       setIsMeal,
       ingredients,
       setIngredients,
+      checkedIngredients,
+      setCheckedIngredients,
     }
   ), [recipes, searchInput, radio, path,
     searchBy, recipeData, filterCategory,
-    idRecipe, isMeal, ingredients]);
+    idRecipe, isMeal, ingredients, checkedIngredients]);
 
   return (
     <RecipeContext.Provider value={ value }>
