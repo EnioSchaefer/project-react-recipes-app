@@ -23,12 +23,14 @@ function RecipeInProgress() {
   const history = useHistory();
   const path = history.location.pathname;
   const id = path.split('/')[2];
+  const mealName = path.split('/')[1];
   const meal = path.includes('/meals');
   const imageOf = isMeal ? 'strMealThumb' : 'strDrinkThumb';
   const nameOf = isMeal ? 'strMeal' : 'strDrink';
   const idOf = isMeal ? 'idMeal' : 'idDrink';
   const style = { textDecoration: 'line-through solid rgb(0, 0, 0)' };
   const noStyle = { textDecoration: 'none' };
+  const objIgrs = '{"drinks": {}, "meals": {}}';
 
   useEffect(() => {
     const setData = async () => {
@@ -45,7 +47,6 @@ function RecipeInProgress() {
       const found = localStg
         ? localStg.find((favRecipe) => favRecipe.id === id) : false;
       if (found) setIsFavorite(true);
-
       const data = await fetchData(id, meal);
       setRecipeData(await data);
       setIsMeal(meal); setIdRecipe(data[idOf]);
@@ -66,7 +67,6 @@ function RecipeInProgress() {
 
       const recipe = ingredientsList
         .map((ingredient, i) => ({ quantity: quantities[i], name: ingredient }));
-
       setIngredients(recipe);
 
       if (meal) {
@@ -96,17 +96,30 @@ function RecipeInProgress() {
     localStorage.setItem('doneRecipes', JSON.stringify([...localData, ...obj]));
     history.push('/done-recipes');
   };
-
   const handleCheck = ({ target }) => {
     const { name, checked } = target;
-    console.log(name);
+    // console.log(idRecipe);
     if (checked) {
       setCheckedIngredients({ ...checkedIngredients, [name]: true });
     } else {
       setCheckedIngredients({ ...checkedIngredients, [name]: false });
     }
+    // localStorage.setItem('inProgressRecipes', JSON.stringify(localStg2));
   };
+  useEffect(() => {
+    const localStg2 = JSON.parse(localStorage.getItem('inProgressRecipes') || objIgrs);
+    localStorage.setItem('inProgressRecipes', JSON.stringify(localStg2));
+  }, []);
 
+  useEffect(() => {
+    const localStg3 = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (localStg3 !== null && nameOf) {
+      const ingredientCheck = Object.keys(checkedIngredients);
+      const objRecipe = { [idRecipe]: ingredientCheck };
+      const objFinal = { ...localStg3, [mealName]: objRecipe };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(objFinal));
+    }
+  }, [checkedIngredients, idRecipe, mealName, nameOf]);
   const shareLink = () => {
     const addres = window.location.href.split('/in-progress')[0];
     copy(addres);
@@ -116,7 +129,6 @@ function RecipeInProgress() {
       setShowCopyMessage(false);
     }, fiveSeconds);
   };
-
   if (recipeData) {
     return (
       <div className="page-details">
@@ -129,7 +141,6 @@ function RecipeInProgress() {
             data-testid="recipe-photo"
           />
         </div>
-
         <div className="recipe-name">
           <h1 data-testid="recipe-title">{ recipeData[nameOf] }</h1>
         </div>
@@ -187,16 +198,13 @@ function RecipeInProgress() {
                   data-testid={ `${index}-ingredient-name-and-measure` }
                 >
                   <input
-                    // className={ checkedIngredients ? 'sublinha' : null }
                     type="checkbox"
+                    checked={ checkedIngredients[ingredient.name] }
                     id="checkbox"
                     onChange={ (e) => handleCheck(e) }
                     name={ ingredient.name }
-
                   />
-
                   {`${ingredient.quantity} ${ingredient.name}`}
-
                 </p>
               </label>
             ))}
@@ -207,7 +215,6 @@ function RecipeInProgress() {
           <div className="instructions" />
           <h1 data-testid="instructions">{ recipeData.strInstructions }</h1>
         </div>
-
         <div className="Video">
           {embedId && (
             <div>

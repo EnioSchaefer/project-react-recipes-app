@@ -10,7 +10,7 @@ export function RecipeProvider({ children }) {
   const [idRecipe, setIdRecipe] = useState(null);
   const [isMeal, setIsMeal] = useState(null);
   const [ingredients, setIngredients] = useState([]);
-  const [checkedIngredients, setCheckedIngredients] = useState(false);
+  const [checkedIngredients, setCheckedIngredients] = useState({});
 
   const value = useMemo(() => ({
     idRecipe,
