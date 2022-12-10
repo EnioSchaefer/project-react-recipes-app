@@ -2,6 +2,7 @@ import copy from 'clipboard-copy';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import shareIcon from '../images/shareIcon.svg';
+import Header from '../components/Header';
 
 export default function DoneRecipes() {
   const [showCopyMessage, setShowCopyMessage] = useState(false);
@@ -31,6 +32,7 @@ export default function DoneRecipes() {
 
   return (
     <div>
+      <Header title="Done Recipes" showSearch={ false } />
       <button
         type="button"
         data-testid="filter-by-all-btn"

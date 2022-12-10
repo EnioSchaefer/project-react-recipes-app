@@ -29,8 +29,7 @@ export default function RecipeDetails() {
     dataOf,
     recomendationOf,
     renderCaroucel } = getVerification(meal);
-  // const [doneRecipesList, setDoneRecipesList] = useState([]);
-  // const [doneList, setDoneList] = useState(null);
+  const [inProgress, setInProgress] = useState(null);
 
   useEffect(() => {
     const setData = async () => {
@@ -66,7 +65,10 @@ export default function RecipeDetails() {
         && ingredient !== false && ingredient !== null);
 
       const recipe = ingredientsList
-        .map((ingredient, i) => ({ quantity: quantities[i], name: ingredient }));
+        .map((ingredient, i) => (
+          { quantity: quantities[i] ? quantities[i] : '',
+            name: ingredient,
+            checked: false }));
       setIngredients(recipe);
 
       if (meal) {
@@ -77,7 +79,7 @@ export default function RecipeDetails() {
   }, [recipeData, setIngredients, meal]);
 
   const shareLink = () => {
-    copy(`http://localhost:3000${path}`);
+    copy(window.location.href);
     setShowCopyMessage(true);
     const fiveSeconds = 5000;
     setTimeout(() => {
@@ -85,13 +87,14 @@ export default function RecipeDetails() {
     }, fiveSeconds);
   };
 
-  // useEffect(() => {
-  //   const list = JSON.parse(localStorage.getItem('doneRecipes') || '[]');
-  //   setDoneRecipesList(list);
-  // }, []);
-  // const doneRecipesLocalStorage = doneRecipesList.filter((item) => item.id === idOf);
-  // console.log(doneRecipesLocalStorage);
-  const doneRecipesLocalStorage = [];
+  useEffect(() => {
+    const list = JSON.parse(localStorage.getItem('inProgressRecipes') || '[]');
+    const doneRecipesLocalStorage = Object
+      .values(list).some((item, i) => Object.keys(item)[i] === id);
+    setInProgress(doneRecipesLocalStorage);
+    console.log(doneRecipesLocalStorage);
+  }, [id]);
+
   if (recipeData) {
     return (
       <div className="page-details">
@@ -185,27 +188,14 @@ export default function RecipeDetails() {
             ))}
           </div>
         </div>
-        {
-          (doneRecipesLocalStorage.length > 0) ? (
-
-            <button
-              type="button"
-              className="start-btn"
-              onClick={ () => history.push(`/${dataOf}/${recipeData[idOf]}/in-progress`) }
-            >
-              Continue Recipe
-            </button>
-          ) : (
-            <button
-              type="button"
-              data-testid="start-recipe-btn"
-              className="start-btn"
-              onClick={ () => history.push(`/${dataOf}/${recipeData[idOf]}/in-progress`) }
-            >
-              Start Recipe
-            </button>
-          )
-        }
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          className="start-btn"
+          onClick={ () => history.push(`/${dataOf}/${recipeData[idOf]}/in-progress`) }
+        >
+          {inProgress ? 'Continue Recipe' : 'Start Recipe'}
+        </button>
       </div>
     );
   }

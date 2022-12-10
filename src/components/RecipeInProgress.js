@@ -1,7 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import RecipeContext from '../context/RecipeContext';
 import fetchData from '../service/fetchData';
+import setLocalStorage from '../service/setLocalStorage';
 import './RecipeInProgress.css';
 
 function RecipeInProgress() {
@@ -9,10 +14,10 @@ function RecipeInProgress() {
     setIngredients, setRecipeData,
     idRecipe,
     setIsMeal,
-    setIdRecipe,
-    setCheckedIngredients,
-    checkedIngredients } = useContext(RecipeContext);
+    setIdRecipe } = useContext(RecipeContext);
   const [embedId, setEmbedId] = useState(null);
+  const [showCopyMessage, setShowCopyMessage] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const history = useHistory();
   const path = history.location.pathname;
   const id = path.split('/')[2];
@@ -33,6 +38,19 @@ function RecipeInProgress() {
   }, [setRecipeData, idRecipe, isMeal, id, meal, idOf, setIdRecipe, setIsMeal]);
 
   useEffect(() => {
+    const setData = async () => {
+      const localStg = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      const found = localStg
+        ? localStg.find((favRecipe) => favRecipe.id === id) : false;
+      if (found) setIsFavorite(true);
+      const data = await fetchData(id, meal);
+      setRecipeData(await data);
+      setIsMeal(meal); setIdRecipe(data[idOf]);
+    };
+    setData();
+  }, [id, idOf, meal, setIdRecipe, setIsMeal, setRecipeData]);
+
+  useEffect(() => {
     if (recipeData) {
       const quantities = Object.values(recipeData).filter((quantity, i) => Object
         .keys(recipeData)[i].includes('strMeasure') && quantity)
@@ -45,7 +63,6 @@ function RecipeInProgress() {
 
       const recipe = ingredientsList
         .map((ingredient, i) => ({ quantity: quantities[i], name: ingredient }));
-
       setIngredients(recipe);
 
       if (meal) {
@@ -76,16 +93,33 @@ function RecipeInProgress() {
     history.push('/done-recipes');
   };
 
-  const handleCheck = ({ target }) => {
-    const { name, checked } = target;
-    console.log(name);
-    if (checked) {
-      setCheckedIngredients({ ...checkedIngredients, [name]: true });
-    } else {
-      setCheckedIngredients({ ...checkedIngredients, [name]: false });
-    }
+  const SaveOnLocal = (name, type) => {
+    const localStg3 = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
+    const verifica = ingredients.map((ingr) => {
+      if (ingr.name === name) ingr.checked = !ingr.checked;
+      return ingr;
+    });
+    const usedIngredients = verifica.filter((ingr) => ingr.checked && ingr.name)
+      .map((e) => e.name);
+    const drinks = localStg3.drinks ? localStg3.drinks : {};
+    const meals = localStg3.meals ? localStg3.meals : {};
+    const types = `${type}s.${idRecipe}`;
+    const newKey = { ...localStg3[types], [idRecipe]: usedIngredients };
+    const newLocalstg = type === 'meal'
+      ? { drinks, meals: newKey } : { drinks: newKey, meals };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(newLocalstg));
+    setIngredients(verifica);
   };
 
+  const shareLink = () => {
+    const addres = window.location.href.split('/in-progress')[0];
+    copy(addres);
+    setShowCopyMessage(true);
+    const fiveSeconds = 5000;
+    setTimeout(() => {
+      setShowCopyMessage(false);
+    }, fiveSeconds);
+  };
   if (recipeData) {
     return (
       <div className="page-details">
@@ -98,12 +132,42 @@ function RecipeInProgress() {
             data-testid="recipe-photo"
           />
         </div>
-
         <div className="recipe-name">
           <h1 data-testid="recipe-title">{ recipeData[nameOf] }</h1>
         </div>
-        <button type="button" data-testid="share-btn">Compartilhar</button>
-        <button type="button" data-testid="favorite-btn">Favoritar</button>
+        <button
+          className="favorite-bt"
+          type="button"
+          data-testid="favorite-btn"
+          onClick={ () => {
+            setLocalStorage(recipeData, isMeal);
+            setIsFavorite(!isFavorite);
+          } }
+          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+        >
+          <img
+            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            alt="favorite button"
+          />
+        </button>
+        <button
+          className="share-bt"
+          type="button"
+          onClick={ shareLink }
+          data-testid="share-btn"
+        >
+          <img
+            src={ shareIcon }
+            alt="share button"
+          />
+        </button>
+        {showCopyMessage
+          && <span style={ { fontSize: '10px' } }>Link copied!</span>}
+        {meal ? <h4 data-testid="recipe-category">{ recipeData.strCategory }</h4>
+          : (
+            <h4 data-testid="recipe-category">
+              { `${recipeData.strCategory}, ${recipeData.strAlcoholic}`}
+            </h4>) }
         {meal ? <h1 data-testid="recipe-category">{ recipeData.strCategory }</h1>
           : (
             <p data-testid="recipe-category">
@@ -119,22 +183,19 @@ function RecipeInProgress() {
                 htmlFor="checkbox"
                 key={ index }
                 data-testid={ `${index}-ingredient-step` }
-                style={ (checkedIngredients[ingredient.name]) ? style : noStyle }
+                style={ (ingredient.checked) ? style : noStyle }
               >
                 <p
                   data-testid={ `${index}-ingredient-name-and-measure` }
                 >
                   <input
-                    // className={ checkedIngredients ? 'sublinha' : null }
                     type="checkbox"
+                    checked={ ingredient.checked }
                     id="checkbox"
-                    onChange={ (e) => handleCheck(e) }
+                    onChange={ () => SaveOnLocal(ingredient.name, ingredient.type) }
                     name={ ingredient.name }
-
                   />
-
                   {`${ingredient.quantity} ${ingredient.name}`}
-
                 </p>
               </label>
             ))}
@@ -145,7 +206,6 @@ function RecipeInProgress() {
           <div className="instructions" />
           <h1 data-testid="instructions">{ recipeData.strInstructions }</h1>
         </div>
-
         <div className="Video">
           {embedId && (
             <div>
@@ -166,7 +226,6 @@ function RecipeInProgress() {
         >
           Finalizar
         </button>
-
       </div>
     );
   }
