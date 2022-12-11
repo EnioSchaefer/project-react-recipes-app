@@ -1,8 +1,9 @@
-import copy from 'clipboard-copy';
+// import copy from 'clipboard-copy';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import shareIcon from '../images/shareIcon.svg';
 import Header from '../components/Header';
+import handleClick from '../service/setDoneLink';
 
 export default function DoneRecipes() {
   const [showCopyMessage, setShowCopyMessage] = useState(false);
@@ -10,20 +11,20 @@ export default function DoneRecipes() {
   const [doneList, setDoneList] = useState(null);
 
   useEffect(() => {
-    const list = JSON.parse(localStorage.getItem('doneRecipes') || '[]');
+    const list = JSON.parse(localStorage.getItem('doneRecipes'));
     setDoneRecipesList(list);
     setDoneList(list);
   }, []);
 
-  const handleClick = ({ target }) => {
-    copy(`http://localhost:3000/${target.name}s/${target.id}`);
-    setShowCopyMessage(true);
-    const fiveSeconds = 5000;
-    console.log(showCopyMessage);
-    setTimeout(() => {
-      setShowCopyMessage(false);
-    }, fiveSeconds);
-  };
+  // const handleClick = ({ target }) => {
+  //   copy(`http://localhost:3000/${target.name}s/${target.id}`);
+  //   setShowCopyMessage(true);
+  //   const fiveSeconds = 5000;
+  //   console.log(showCopyMessage);
+  //   setTimeout(() => {
+  //     setShowCopyMessage(false);
+  //   }, fiveSeconds);
+  // };
 
   const handleFilter = ({ target }) => {
     const filter = doneRecipesList.filter((el) => target.id === el.type);
@@ -61,7 +62,7 @@ export default function DoneRecipes() {
       </button>
       {
         doneRecipesList && doneRecipesList.map((item, index) => (
-          <div key={ index }>
+          <div key={ index } data-testid="done">
             <Link
               to={ `${item.type}s/${item.id}` }
             >
@@ -93,7 +94,9 @@ export default function DoneRecipes() {
               )}
             <button
               type="button"
-              onClick={ handleClick }
+              onClick={ ({ target }) => {
+                handleClick({ target }, setShowCopyMessage);
+              } }
             >
               <img
                 data-testid={ `${index}-horizontal-share-btn` }
@@ -104,7 +107,7 @@ export default function DoneRecipes() {
               />
             </button>
             {showCopyMessage
-              && <span style={ { fontSize: '10px' } }>Link copied!</span>}
+              && <p style={ { fontSize: '10px' } } data-testid="share">Link copied!</p>}
           </div>
         ))
       }
