@@ -5,7 +5,10 @@ import renderWithRouter from './Helpers/renderWith';
 import fetch from '../../cypress/mocks/fetch';
 import App from '../App';
 
+const drink = '/drinks/178319';
 describe('Testa a tela de Recipe Details', () => {
+  localStorage.setItem('inProgressRecipes', JSON.stringify({ drinks: { 178319: ['Pineapple Juice-ingredient-1'] } }));
+
   afterEach(() => {
     jest.resetAllMocks();
   });
@@ -32,7 +35,7 @@ describe('Testa a tela de Recipe Details', () => {
 
   it('verifica drinks/id', async () => {
     const { history } = renderWithRouter(<App />);
-    act(() => history.push('/drinks/178319'));
+    act(() => history.push(drink));
 
     const drinkRecipe = await screen.findByTestId('recipe-title');
     expect(drinkRecipe).toBeInTheDocument();
@@ -54,21 +57,23 @@ describe('Testa a tela de Recipe Details', () => {
     userEvent.click(fav);
     expect(fav).toHaveAttribute('src', 'blackHeartIcon.svg');
 
-    // window.document.execCommand = jest.fn();
     const share = screen.getByTestId('share-btn');
     expect(share).toBeInTheDocument();
-    // userEvent.click(share);
-    // expect(window.execCommand).toHaveBeenCalledWith('copy');
-    // screen.getByText('Link copied!');
   });
 
   it('Verifica Start Button', async () => {
     const { history } = renderWithRouter(<App />);
-    act(() => history.push('/drinks/178319'));
+    act(() => history.push(drink));
 
     const startBtn = await screen.findByTestId('start-recipe-btn');
     expect(startBtn).toBeInTheDocument();
     userEvent.click(startBtn);
     expect(history.location.pathname).toBe('/drinks/178319/in-progress');
+
+    act(() => history.push('/drinks/178319/in-progress'));
+    const ingredient = await screen.findByTestId('0-ingredient-step');
+    userEvent.click(ingredient);
+    act(() => history.push(drink));
+    expect(startBtn).toHaveTextContent('Continue Recipe');
   });
 });

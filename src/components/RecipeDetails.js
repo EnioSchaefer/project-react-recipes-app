@@ -9,8 +9,9 @@ import fetchData from '../service/fetchData';
 import setLocalStorage from '../service/setLocalStorage';
 import './RecipeDetails.css';
 import getVerification from '../service/recipeDetaisVerification';
+import setShareLink from '../service/setShareLink';
 
-const copy = require('clipboard-copy');
+// const copy = require('clipboard-copy');
 
 export default function RecipeDetails() {
   const { recipeData, isMeal, ingredients,
@@ -78,15 +79,6 @@ export default function RecipeDetails() {
     }
   }, [recipeData, setIngredients, meal]);
 
-  const shareLink = () => {
-    copy(window.location.href);
-    setShowCopyMessage(true);
-    const fiveSeconds = 5000;
-    setTimeout(() => {
-      setShowCopyMessage(false);
-    }, fiveSeconds);
-  };
-
   useEffect(() => {
     const list = JSON.parse(localStorage.getItem('inProgressRecipes') || '[]');
     const doneRecipesLocalStorage = Object
@@ -122,7 +114,11 @@ export default function RecipeDetails() {
             alt="favorite button"
           />
         </button>
-        <button type="button" onClick={ shareLink } data-testid="share-btn">
+        <button
+          type="button"
+          onClick={ () => setShareLink(setShowCopyMessage) }
+          data-testid="share-btn"
+        >
           <img
             src={ shareIcon }
             alt="share button"
