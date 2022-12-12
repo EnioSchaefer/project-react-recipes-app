@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
+import './Categories.css';
 
 function Categories() {
   const history = useHistory();
@@ -49,7 +50,7 @@ function Categories() {
   if (!categories) return <p>Loading Categories...</p>;
 
   return (
-    <div>
+    <div className="categories-button">
       {categories.map((category, index) => index < renderAmount && (
         <button
           type="button"

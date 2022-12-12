@@ -1,29 +1,56 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
+import shareIcon from '../images/searchIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import RecipeContext from '../context/RecipeContext';
+import fetchApiRecipe from '../service/fechApiRecipe';
 import fetchData from '../service/fetchData';
+import setLocalStorage from '../service/setLocalStorage';
+import './RecipeDetails.css';
+import getVerification from '../service/recipeDetaisVerification';
 
 export default function RecipeDetails() {
   const { recipeData, isMeal, ingredients,
-    setIngredients, setRecipeData,
-    idRecipe, setIsMeal, setIdRecipe } = useContext(RecipeContext);
+    setIngredients, setRecipeData, setIsMeal, setIdRecipe } = useContext(RecipeContext);
   const [embedId, setEmbedId] = useState(null);
+  const [carouselList, setCarouselList] = useState(null);
+  const [showCopyMessage, setShowCopyMessage] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const doneRecipesLocalStorage = [];
   const history = useHistory();
   const path = history.location.pathname;
   const id = path.split('/')[2];
   const meal = path.includes('/meals');
-  const imageOf = isMeal ? 'strMealThumb' : 'strDrinkThumb';
-  const nameOf = isMeal ? 'strMeal' : 'strDrink';
-  const idOf = meal ? 'idMeal' : 'idDrink';
+  const { imageOf,
+    nameOf,
+    idOf,
+    dataOf,
+    recomendationOf,
+    renderCaroucel } = getVerification(meal);
 
   useEffect(() => {
     const setData = async () => {
+      const localStg = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      const found = localStg
+        ? localStg.find((favRecipe) => favRecipe.id === id) : false;
+      if (found) setIsFavorite(true);
+
       const data = await fetchData(id, meal);
       setRecipeData(await data);
       setIsMeal(meal); setIdRecipe(data[idOf]);
     };
     setData();
-  }, [setRecipeData, idRecipe, isMeal, id, meal, idOf, setIdRecipe, setIsMeal]);
+  }, [id, idOf, meal, setIdRecipe, setIsMeal, setRecipeData]);
+
+  useEffect(() => {
+    const setDataCarousel = async () => {
+      const data = await fetchApiRecipe(meal);
+      setCarouselList(data);
+    };
+    setDataCarousel();
+  }, [setCarouselList, dataOf, meal]);
 
   useEffect(() => {
     if (recipeData) {
@@ -38,49 +65,138 @@ export default function RecipeDetails() {
 
       const recipe = ingredientsList
         .map((ingredient, i) => ({ quantity: quantities[i], name: ingredient }));
-
       setIngredients(recipe);
 
       if (meal) {
-        const getEmbedId = recipeData.strYoutube.split('=')[1];
+        const getEmbedId = recipeData?.strYoutube.split('=')[1];
         setEmbedId(getEmbedId);
       }
     }
   }, [recipeData, setIngredients, meal]);
 
+  const shareLink = () => {
+    copy(window.location.href);
+    setShowCopyMessage(true);
+    const fiveSeconds = 5000;
+    setTimeout(() => {
+      setShowCopyMessage(false);
+    }, fiveSeconds);
+  };
+
   if (recipeData) {
     return (
-      <>
-        <img
-          src={ recipeData[imageOf] }
-          alt={ recipeData[nameOf] }
-          data-testid="recipe-photo"
-        />
-        <h2 data-testid="recipe-title">{ recipeData[nameOf] }</h2>
+      <div className="page-details">
+        <div className="imgPrincipal">
+          <img
+            src={ recipeData[imageOf] }
+            alt={ recipeData[nameOf] }
+            data-testid="recipe-photo"
+          />
+        </div>
+        <div className="recipe-name">
+          <h1 data-testid="recipe-title">{ recipeData[nameOf] }</h1>
+        </div>
+        <button
+          type="button"
+          data-testid="favorite-btn"
+          onClick={ () => {
+            setLocalStorage(recipeData, isMeal);
+            setIsFavorite(!isFavorite);
+          } }
+          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+        >
+          <img
+            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            alt="favorite button"
+          />
+        </button>
+        <button type="button" onClick={ shareLink } data-testid="share-btn">
+          <img
+            src={ shareIcon }
+            alt="share button"
+          />
+        </button>
+        {showCopyMessage
+          && <span style={ { fontSize: '10px' } }>Link copied!</span>}
         {meal ? <h4 data-testid="recipe-category">{ recipeData.strCategory }</h4>
           : (
             <h4 data-testid="recipe-category">
-              {
-                `${recipeData.strCategory}, ${recipeData.strAlcoholic}`
-              }
+              { `${recipeData.strCategory}, ${recipeData.strAlcoholic}`}
             </h4>) }
-        <h4 data-testid="recipe-category">{ recipeData.strCategory }</h4>
-        <div>
-          {ingredients.map((ingredient, index) => (
-            <p
-              key={ index }
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              {`${ingredient.quantity} ${ingredient.name}`}
-            </p>))}
+        <div className="ingredientes-main">
+          <h3>Ingredientes</h3>
+          <div className="ingredients">
+            {ingredients.map((ingredient, index) => (
+              <p
+                key={ index }
+                data-testid={ `${index}-ingredient-name-and-measure` }
+              >
+                {`${ingredient.quantity} ${ingredient.name}`}
+              </p>))}
+          </div>
         </div>
-        <h4 data-testid="instructions">{ recipeData.strInstructions }</h4>
-        {embedId && <iframe
-          title={ recipeData[nameOf] }
-          data-testid="video"
-          src={ `https://www.youtube.com/embed/${embedId}` }
-        />}
-      </>
+        <div className="instructions-main">
+          <h3>Instructions</h3>
+          <div className="instructions">
+
+            <p data-testid="instructions">{ recipeData.strInstructions }</p>
+          </div>
+        </div>
+        <div className="Video">
+          {embedId && (
+            <div>
+              <h3>Video</h3>
+              <iframe
+                title={ recipeData[nameOf] }
+                data-testid="video"
+                src={ `https://www.youtube.com/embed/${embedId}` }
+              />
+            </div>
+          )}
+        </div>
+        <h3>Recomendations</h3>
+        <div className="carouselCard">
+          <div className="carousel">
+            {carouselList && carouselList.map((item, index) => index < renderCaroucel && (
+              <Link
+                to={ `/${recomendationOf}/${item[!isMeal ? 'idMeal' : 'idDrink']}` }
+                key={ index }
+              >
+                <div className="img-carousel">
+                  <img
+                    src={ item[!isMeal ? 'strMealThumb' : 'strDrinkThumb'] }
+                    data-testid={ `${index}-recommendation-card` }
+                    alt={ item[!isMeal ? 'strMeal' : 'strDrink'] }
+                  />
+                </div>
+                <p data-testid={ `${index}-recommendation-title` }>
+                  {item[!isMeal ? 'strMeal' : 'strDrink']}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+        {
+          (doneRecipesLocalStorage.length > 0) ? (
+            <button
+              type="button"
+              data-testid="start-recipe-btn"
+              className="start-btn"
+              onClick={ () => history.push(`/${dataOf}/${recipeData[idOf]}/in-progress`) }
+            >
+              Start Recipe
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="start-btn"
+              onClick={ () => history.push(`/${dataOf}/${recipeData[idOf]}/in-progress`) }
+            >
+              Continue Recipe
+            </button>
+          )
+        }
+      </div>
     );
   }
 }

@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;500&display=swap') ;
+
+.header {
+  display: flex;
+  justify-content: end;
+  left: 0;
+  top: 0;
+  width: 360px;
+}
+
+.header-button {
+  align-items: center;
+  background-color: #fcdc36;
+  display: flex;
+  flex-wrap: wrap;
+  height: 52px;
+  justify-content: end;
+  position: relative;
+}
+
+.header-button button {
+  background-color: #fcdc36;
+  border: none;
+  cursor: pointer;
+}
+
+.header-button img {
+  filter: invert(16%) sepia(43%) saturate(3971%)
+    hue-rotate(252deg) brightness(82%) contrast(106%);
+  height: 26.85px;
+
+  /* margin-right: 15px; */
+  padding: 1px;
+  width: 26.85px;
+}
+
+h1 {
+  color: #41197f;
+  font-family: Epilogue , sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  width: 360px;
+}
+

@@ -1,10 +1,25 @@
-.recipeCard {
+.recipes {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  width: 220px;
+  justify-content: space-evenly;
+  width: 360px;
 }
 
-.recipeCard img {
-  width: 200px;
+.recipes img {
+  border-radius: 5px 5px 0 0;
+  width: 163px;
+}
+
+.recipes p {
+  border-color: #b1b1b1;
+  border-radius: 5px;
+  border-style: groove;
+  border-width: 0.512;
+  color: #1a1b1c;
+  margin: 0 0 5px;
+  max-width: 163px;
+}
+
+.recipeCard {
+  text-decoration: none;
 }

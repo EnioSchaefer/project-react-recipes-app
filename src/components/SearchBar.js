@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
+import './SearchBar.css';
 
 export default function SearchBar() {
   const history = useHistory();
@@ -17,45 +18,54 @@ export default function SearchBar() {
   };
 
   return (
-    <div>
+    <main className="search-bar">
+      <div className="purple-container" />
       <div>
         <input
           type="text"
+          placeholder="Search"
           id="search"
           name="search"
           data-testid="search-input"
           value={ searchInput }
           onChange={ ({ target }) => { setSearchInput(target.value); } }
+          className="text-input"
         />
       </div>
-      ingredient
-      <input
-        type="radio"
-        name="search"
-        id="ingredient"
-        value="ingredient"
-        data-testid="ingredient-search-radio"
-        onChange={ ({ target }) => { setRadio(target.value); } }
-      />
-      name
-      <input
-        type="radio"
-        name="search"
-        id="name"
-        value="name"
-        data-testid="name-search-radio"
-        onChange={ ({ target }) => { setRadio(target.value); } }
-      />
-      first letter
-      <input
-        type="radio"
-        name="search"
-        id="first-letter"
-        value="first-letter"
-        data-testid="first-letter-search-radio"
-        onChange={ ({ target }) => { setRadio(target.value); } }
-      />
-      <div>
+      <div className="radio-input">
+        <label htmlFor="radio-input">
+          <input
+            type="radio"
+            name="search"
+            value="ingredient"
+            data-testid="ingredient-search-radio"
+            onChange={ ({ target }) => { setRadio(target.value); } }
+          />
+          Ingridient
+        </label>
+        <label htmlFor="radio-input">
+          <input
+            type="radio"
+            name="search"
+            value="name"
+            data-testid="name-search-radio"
+            onChange={ ({ target }) => { setRadio(target.value); } }
+          />
+          Name
+        </label>
+        <label htmlFor="radio-input">
+          <input
+            type="radio"
+            name="search"
+            value="first-letter"
+            data-testid="first-letter-search-radio"
+            onChange={ ({ target }) => { setRadio(target.value); } }
+            className="radio-input"
+          />
+          First letter
+        </label>
+      </div>
+      <div className="last-div">
         <button
           type="button"
           id="ingredient"
@@ -66,6 +76,6 @@ export default function SearchBar() {
           search
         </button>
       </div>
-    </div>
+    </main>
   );
 }

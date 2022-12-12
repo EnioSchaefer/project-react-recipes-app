@@ -4,6 +4,7 @@ import { useState } from 'react';
 import searchIconSVG from '../images/searchIcon.svg';
 import profileIconSVG from '../images/profileIcon.svg';
 import SearchBar from './SearchBar';
+import './Header.css';
 
 export default function Header({ title, showSearch }) {
   const history = useHistory();
@@ -14,41 +15,47 @@ export default function Header({ title, showSearch }) {
   };
 
   return (
-    <div>
-      <header>
-        <button
-          type="button"
-          onClick={ toProfile }
-        >
-          <img
-            data-testid="profile-top-btn"
-            src={ profileIconSVG }
-            alt="SVG profile"
-          />
-        </button>
-        {showSearch && (
+    <header className="header">
+      <div>
+        <div className="header-button">
           <button
             type="button"
-            onClick={ () => setShowInput(!showInput) }
-            data-testid="search-button"
+            onClick={ toProfile }
+            variant="dark"
+            className="header-button"
           >
             <img
-              data-testid="search-top-btn"
-              src={ searchIconSVG }
-              alt="SVG search"
+              data-testid="profile-top-btn"
+              src={ profileIconSVG }
+              alt="SVG profile"
             />
           </button>
-        )}
-        <h1
-          data-testid="page-title"
-        >
-          { title }
-        </h1>
-        {showInput && (
-          <SearchBar />
-        )}
-      </header>
-    </div>
+          {showSearch && (
+            <button
+              type="button"
+              onClick={ () => setShowInput(!showInput) }
+              data-testid="search-button"
+            >
+              <img
+                data-testid="search-top-btn"
+                src={ searchIconSVG }
+                alt="SVG search"
+              />
+            </button>
+          )}
+        </div>
+        <div>
+          <h1
+            data-testid="page-title"
+          >
+            { title }
+          </h1>
+          {showInput && (
+            <SearchBar />
+          )}
+        </div>
+      </div>
+    </header>
   );
 }
 

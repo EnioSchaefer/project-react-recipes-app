@@ -1,10 +1,20 @@
 .footer {
   background-color: #41197f;
   bottom: 0;
-  box-shadow: black;
+  box-shadow: 0 -2px 10px black;
   display: flex;
   height: 46px;
   justify-content: space-around;
   position: fixed;
   width: 360px;
+}
+
+.footer button {
+  background-color: #41197f;
+  border: none;
+}
+
+.footer img {
+  filter: invert(94%) sepia(71%) saturate(6761%)
+    hue-rotate(327deg) brightness(104%) contrast(98%);
 }
