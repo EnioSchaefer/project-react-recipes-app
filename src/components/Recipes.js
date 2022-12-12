@@ -37,24 +37,24 @@ function Recipes() {
       <Header title={ meal ? 'Meals' : 'Drinks' } showSearch />
       <Categories />
 
-        {(filterCategory || recipes).map((recipe, index) => index < renderAmount && (
-          <Link
-            to={ `${dataOf}/${recipe[idOf]}` }
-            data-testid={ `${index}-recipe-card` }
-            key={ index }
-            className="recipeCard"
-          >
-            <img
-              src={ recipe[imageOf] }
-              data-testid={ `${index}-card-img` }
-              alt={ recipe[nameOf] }
-            />
-            <p data-testid={ `${index}-card-name` }>{recipe[nameOf]}</p>
-          </Link>
-        ))}
-      </div>
+      {(filterCategory || recipes).map((recipe, index) => index < renderAmount && (
+        <Link
+          to={ `${dataOf}/${recipe[idOf]}` }
+          data-testid={ `${index}-recipe-card` }
+          key={ index }
+          className="recipeCard"
+        >
+          <img
+            src={ recipe[imageOf] }
+            data-testid={ `${index}-card-img` }
+            alt={ recipe[nameOf] }
+          />
+          <p data-testid={ `${index}-card-name` }>{recipe[nameOf]}</p>
+        </Link>
+      ))}
       <Footer />
-    </>
+      <Categories />
+    </div>
   );
 }
 
