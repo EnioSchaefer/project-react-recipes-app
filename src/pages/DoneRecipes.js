@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 // import { Link, useHistory } from 'react-router-dom';
-import RecipeContext from '../context/RecipeContext';
+// import RecipeContext from '../context/RecipeContext';
 import shareIcon from '../images/shareIcon.svg';
+import Header from '../components/Header';
 
 export default function DoneRecipes() {
   return (
@@ -98,4 +99,3 @@ export default function DoneRecipes() {
 //     </div>
 //   );
 // }
-

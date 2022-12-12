@@ -18,6 +18,7 @@ function RecipeInProgress() {
   const [embedId, setEmbedId] = useState(null);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [btDisabled, setBtDisabled] = useState(false);
   const history = useHistory();
   const path = history.location.pathname;
   const id = path.split('/')[2];
@@ -110,6 +111,10 @@ function RecipeInProgress() {
     localStorage.setItem('inProgressRecipes', JSON.stringify(newLocalstg));
     setIngredients(verifica);
   };
+
+  useEffect(() => {
+    setBtDisabled(ingredients.every((element) => element.checked));
+  }, [ingredients]);
 
   const shareLink = () => {
     const addres = window.location.href.split('/in-progress')[0];
@@ -219,6 +224,7 @@ function RecipeInProgress() {
           )}
         </div>
         <button
+          disabled={ !btDisabled }
           type="button"
           data-testid="finish-recipe-btn"
           className="finish-btn"

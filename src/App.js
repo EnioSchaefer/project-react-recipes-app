@@ -5,7 +5,7 @@ import RecipeDetails from './components/RecipeDetails';
 import RecipeInProgress from './components/RecipeInProgress';
 import MainRecipes from './pages/MainRecipes';
 import Login from './components/Login';
-import DoneRecipes from './pages/DoneRecipes';
+import DoneRecipe from './pages/DoneRecipes';
 import Profile from './pages/Profile';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 
@@ -21,7 +21,7 @@ function App() {
         <Route exact path="/drinks" component={ MainRecipes } />
         <Route exact path="/meals" component={ MainRecipes } />
         <Route exact path="/profile" component={ Profile } />
-        <Route exact path="/done-recipes" component={ DoneRecipes } />
+        <Route exact path="/done-recipes" component={ DoneRecipe } />
         <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
 
       </Switch>
