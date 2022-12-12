@@ -1,4 +1,3 @@
-// import copy from 'clipboard-copy';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import shareIcon from '../images/shareIcon.svg';
@@ -15,16 +14,6 @@ export default function DoneRecipes() {
     setDoneRecipesList(list);
     setDoneList(list);
   }, []);
-
-  // const handleClick = ({ target }) => {
-  //   copy(`http://localhost:3000/${target.name}s/${target.id}`);
-  //   setShowCopyMessage(true);
-  //   const fiveSeconds = 5000;
-  //   console.log(showCopyMessage);
-  //   setTimeout(() => {
-  //     setShowCopyMessage(false);
-  //   }, fiveSeconds);
-  // };
 
   const handleFilter = ({ target }) => {
     const filter = doneRecipesList.filter((el) => target.id === el.type);

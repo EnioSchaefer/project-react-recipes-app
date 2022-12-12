@@ -9,9 +9,7 @@ import fetchData from '../service/fetchData';
 import setLocalStorage from '../service/setLocalStorage';
 import './RecipeDetails.css';
 import getVerification from '../service/recipeDetaisVerification';
-import setShareLink from '../service/setShareLink';
-
-// const copy = require('clipboard-copy');
+import shareLink from '../service/shareLink';
 
 export default function RecipeDetails() {
   const { recipeData, isMeal, ingredients,
@@ -116,7 +114,10 @@ export default function RecipeDetails() {
         </button>
         <button
           type="button"
-          onClick={ () => setShareLink(setShowCopyMessage) }
+          onClick={ () => {
+            shareLink((isMeal ? 'meal' : 'drink'), id);
+            setShowCopyMessage(true);
+          } }
           data-testid="share-btn"
         >
           <img
@@ -124,8 +125,7 @@ export default function RecipeDetails() {
             alt="share button"
           />
         </button>
-        {showCopyMessage
-          && <span style={ { fontSize: '10px' } }>Link copied!</span>}
+        {showCopyMessage && <span style={ { fontSize: '10px' } }>Link copied!</span>}
         {meal ? <h4 data-testid="recipe-category">{ recipeData.strCategory }</h4>
           : (
             <h4 data-testid="recipe-category">
