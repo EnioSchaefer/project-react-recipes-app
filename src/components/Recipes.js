@@ -33,7 +33,7 @@ function Recipes() {
   if (!apiResponse) return <p>Loading Recipes...</p>;
 
   return (
-    <>
+    <div>
       <div>
         <Header title={ meal ? 'Meals' : 'Drinks' } showSearch />
         <Categories />
