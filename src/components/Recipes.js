@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
 import Categories from './Categories';
+import Header from './Header';
 import './Recipes.css';
 
 function Recipes() {
@@ -14,7 +15,7 @@ function Recipes() {
   const dataOf = meal ? 'meals' : 'drinks';
   const idOf = meal ? 'idMeal' : 'idDrink';
   const [apiResponse, setApiResponse] = useState(null);
-  const { filterCategory } = useContext(RecipeContext);
+  const { filterCategory, setRecipes, recipes } = useContext(RecipeContext);
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -23,17 +24,19 @@ function Recipes() {
       const response = await fetch(url);
       const data = await response.json();
       setApiResponse(data[dataOf]);
+      setRecipes(data[dataOf]);
     };
     fetchRecipes();
-  }, [dataOf, meal]);
+  }, [dataOf, meal, setRecipes]);
 
   if (!apiResponse) return <p>Loading Recipes...</p>;
 
   return (
     <div>
+      <Header title={ meal ? 'Meals' : 'Drinks' } showSearch />
       <Categories />
 
-      {(filterCategory || apiResponse).map((recipe, index) => index < renderAmount && (
+      {(filterCategory || recipes).map((recipe, index) => index < renderAmount && (
         <Link
           to={ `${dataOf}/${recipe[idOf]}` }
           data-testid={ `${index}-recipe-card` }
