@@ -1,29 +1,20 @@
 import React, { useContext, useState } from 'react';
-import copy from 'clipboard-copy';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import setLocalStorage from '../service/setLocalStorage';
 import RecipeContext from '../context/RecipeContext';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import shareLink from '../service/shareLink';
 import './FavoriteRecipes.css';
 
 export default function FavoriteRecipes() {
-  const [showCopyMessage, setShowCopyMessage] = useState(false);
+  const [showCopyMessage, setShowCopyMessage] = useState([false, 0]);
   const [favRecipes, setFavRecipes] = useState(
     JSON.parse(localStorage.getItem('favoriteRecipes')),
   );
   const [filtered, setFiltered] = useState(null);
   const { isMeal } = useContext(RecipeContext);
-
-  const shareLink = (type, id) => {
-    copy(`http://localhost:3000/${type}s/${id}`);
-    setShowCopyMessage(true);
-    const fiveSeconds = 5000;
-    setTimeout(() => {
-      setShowCopyMessage(false);
-    }, fiveSeconds);
-  };
 
   const updateFavorites = (recipe, isPrep) => {
     setLocalStorage(recipe, isMeal, isPrep);
@@ -98,13 +89,16 @@ export default function FavoriteRecipes() {
             </button>
             <button
               type="button"
-              onClick={ () => shareLink(item.type, item.id) }
+              onClick={ () => {
+                shareLink(item.type, item.id); setShowCopyMessage([true, index]);
+              } }
               data-testid={ `${index}-horizontal-share-btn` }
               src={ shareIcon }
             >
               <img src={ shareIcon } alt="share button" />
             </button>
-            {showCopyMessage && <span style={ { fontSize: '10px' } }>Link copied!</span>}
+            {(showCopyMessage[0] && showCopyMessage[1] === index)
+            && <span style={ { fontSize: '10px' } }>Link copied!</span>}
             <p data-testid={ `${index}-${item.tags}-horizontal-tag` }>{item.tags}</p>
           </div>
         ))

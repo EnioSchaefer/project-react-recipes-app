@@ -6,6 +6,7 @@ import App from '../App';
 import renderWithRouter from './helpers/renderWithRouter';
 import favoriteLocalStorage from './helpers/favoriteLocalStorage';
 
+jest.mock('clipboard-copy');
 const favRecipesRoute = '/favorite-recipes';
 
 describe('Testa o componente FavoriteRecipes', () => {
@@ -62,7 +63,7 @@ describe('Testa o componente FavoriteRecipes', () => {
     expect(favName.innerHTML).toContain('Beef');
   });
 
-  test('Testa se o botao de compartilhar mostra o texto correto', () => {
+  test('Testa se o botao de compartilhar aparece na tela', () => {
     const { history } = renderWithRouter(<App />);
 
     act(() => history.push(favRecipesRoute));
@@ -92,5 +93,31 @@ describe('Testa o componente FavoriteRecipes', () => {
 
     const links02 = screen.getAllByRole('link');
     expect(links02).toHaveLength(6);
+  });
+
+  test('Testa se aparece uma mensagem de tela vazia se nao houver receitas favoritas', () => {
+    const { history } = renderWithRouter(<App />);
+
+    localStorage.clear('favoriteRecipes');
+
+    act(() => history.push(favRecipesRoute));
+    expect(history.location.pathname).toBe(favRecipesRoute);
+
+    const empty = screen.getByText('Sem receitas favoritas :(');
+    expect(empty).toBeInTheDocument();
+  });
+
+  test('Testa se o botao de compartilhar chama a funcao correta', () => {
+    const { history } = renderWithRouter(<App />);
+
+    act(() => history.push(favRecipesRoute));
+    expect(history.location.pathname).toBe(favRecipesRoute);
+
+    const shareBtn = screen.getByTestId('0-horizontal-share-btn');
+    expect(shareBtn).toBeInTheDocument();
+    act(() => userEvent.click(shareBtn));
+
+    const copiedText = screen.getByText('Link copied!');
+    expect(copiedText).toBeInTheDocument();
   });
 });
