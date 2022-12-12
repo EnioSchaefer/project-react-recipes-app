@@ -1,9 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-function Profile() {
+function ProfileInfo() {
   const history = useHistory();
-  const emailDoUsuario = localStorage.getItem('user');
+  const emailDoUsuario = JSON.parse(localStorage.getItem('user')).email;
   //   favoriteRecipes;
   const localStorageClear = () => {
     localStorage.clear();
@@ -47,4 +47,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default ProfileInfo;
