@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import copy from 'clipboard-copy';
 import shareIcon from '../images/searchIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -10,6 +9,7 @@ import fetchData from '../service/fetchData';
 import setLocalStorage from '../service/setLocalStorage';
 import './RecipeDetails.css';
 import getVerification from '../service/recipeDetaisVerification';
+import shareLink from '../service/shareLink';
 
 export default function RecipeDetails() {
   const { recipeData, isMeal, ingredients,
@@ -74,15 +74,6 @@ export default function RecipeDetails() {
     }
   }, [recipeData, setIngredients, meal]);
 
-  const shareLink = () => {
-    copy(window.location.href);
-    setShowCopyMessage(true);
-    const fiveSeconds = 5000;
-    setTimeout(() => {
-      setShowCopyMessage(false);
-    }, fiveSeconds);
-  };
-
   if (recipeData) {
     return (
       <div className="page-details">
@@ -110,14 +101,20 @@ export default function RecipeDetails() {
             alt="favorite button"
           />
         </button>
-        <button type="button" onClick={ shareLink } data-testid="share-btn">
+        <button
+          type="button"
+          onClick={ () => {
+            shareLink((isMeal ? 'meal' : 'drink'), id);
+            setShowCopyMessage(true);
+          } }
+          data-testid="share-btn"
+        >
           <img
             src={ shareIcon }
             alt="share button"
           />
         </button>
-        {showCopyMessage
-          && <span style={ { fontSize: '10px' } }>Link copied!</span>}
+        {showCopyMessage && <span style={ { fontSize: '10px' } }>Link copied!</span>}
         {meal ? <h4 data-testid="recipe-category">{ recipeData.strCategory }</h4>
           : (
             <h4 data-testid="recipe-category">
