@@ -58,7 +58,8 @@ function Recipes() {
         </div>
       </div>
       <Footer />
-    </>
+      <Categories />
+    </div>
   );
 }
 
