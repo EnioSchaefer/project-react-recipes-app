@@ -33,10 +33,9 @@ function Recipes() {
   if (!apiResponse) return <p>Loading Recipes...</p>;
 
   return (
-    <>
-      <div>
-        <Header title="Drinks" showSearch />
-        <Categories />
+    <div>
+      <Header title={ meal ? 'Meals' : 'Drinks' } showSearch />
+      <Categories />
 
         {(filterCategory || recipes).map((recipe, index) => index < renderAmount && (
           <Link
