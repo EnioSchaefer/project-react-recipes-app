@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 function ProfileInfo() {
   const history = useHistory();
   const emailDoUsuario = JSON.parse(localStorage.getItem('user'));
-  //   favoriteRecipes;
+
   const localStorageClear = () => {
     localStorage.clear();
     history.push('/');
