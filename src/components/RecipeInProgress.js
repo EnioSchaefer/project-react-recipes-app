@@ -9,7 +9,7 @@ import fetchData from '../service/fetchData';
 import setLocalStorage from '../service/setLocalStorage';
 import './RecipeInProgress.css';
 
-function RecipeInProgress() {
+export default function RecipeInProgress() {
   const { recipeData, isMeal, ingredients,
     setIngredients, setRecipeData,
     idRecipe,
@@ -18,6 +18,8 @@ function RecipeInProgress() {
   const [embedId, setEmbedId] = useState(null);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [btDisabled, setBtDisabled] = useState(false);
+  const [check, setCheck] = useState([]);
   const history = useHistory();
   const path = history.location.pathname;
   const id = path.split('/')[2];
@@ -55,12 +57,10 @@ function RecipeInProgress() {
       const quantities = Object.values(recipeData).filter((quantity, i) => Object
         .keys(recipeData)[i].includes('strMeasure') && quantity)
         .filter((quantity) => quantity !== ' ' && quantity !== undefined);
-
       const ingredientsList = Object.values(recipeData).map((ingredient, i) => Object
         .keys(recipeData)[i].includes('strIngredient') && ingredient)
         .filter((ingredient) => ingredient !== ''
         && ingredient !== false && ingredient !== null);
-
       const recipe = ingredientsList
         .map((ingredient, i) => ({ quantity: quantities[i], name: ingredient }));
       setIngredients(recipe);
@@ -71,12 +71,10 @@ function RecipeInProgress() {
       }
     }
   }, [recipeData, setIngredients, meal]);
-
   const finishRecipe = () => {
     const date = new Date();
     const localData = JSON.parse(localStorage.getItem('doneRecipes')) || [];
     const tagsArray = recipeData.strTags ? recipeData.strTags.split(',') : [];
-    console.log(tagsArray);
     const obj = [{
       id,
       type: isMeal ? 'meal' : 'drink',
@@ -88,11 +86,9 @@ function RecipeInProgress() {
       doneDate: date.toISOString(),
       tags: tagsArray,
     }];
-    console.log(obj);
     localStorage.setItem('doneRecipes', JSON.stringify([...localData, ...obj]));
     history.push('/done-recipes');
   };
-
   const SaveOnLocal = (name, type) => {
     const localStg3 = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
     const verifica = ingredients.map((ingr) => {
@@ -105,11 +101,32 @@ function RecipeInProgress() {
     const meals = localStg3.meals ? localStg3.meals : {};
     const types = `${type}s.${idRecipe}`;
     const newKey = { ...localStg3[types], [idRecipe]: usedIngredients };
-    const newLocalstg = type === 'meal'
+    const newLocalstg = isMeal
       ? { drinks, meals: newKey } : { drinks: newKey, meals };
     localStorage.setItem('inProgressRecipes', JSON.stringify(newLocalstg));
     setIngredients(verifica);
   };
+
+  useEffect(() => {
+    setBtDisabled(ingredients.every((element2) => element2.checked));
+  }, [ingredients]);
+  useEffect(() => {
+    const newIngredients = ingredients?.map((el) => ({
+      ...el,
+      checked: false,
+    }));
+    const localStg3 = JSON.parse(localStorage
+      .getItem('inProgressRecipes')) || [];
+    const checkLocal = localStg3[meal ? 'meals' : 'drinks'];
+    const typeKey = checkLocal ? checkLocal[id] : [];
+    if (typeKey !== undefined) {
+      const newVar = newIngredients.map((element1) => {
+        if (typeKey.includes(element1.name)) element1.checked = true;
+        return element1;
+      });
+      setCheck(newVar);
+    }
+  }, [ingredients, id, meal]);
 
   const shareLink = () => {
     const addres = window.location.href.split('/in-progress')[0];
@@ -183,14 +200,14 @@ function RecipeInProgress() {
                 htmlFor="checkbox"
                 key={ index }
                 data-testid={ `${index}-ingredient-step` }
-                style={ (ingredient.checked) ? style : noStyle }
+                style={ (check[index]?.checked) ? style : noStyle }
               >
                 <p
                   data-testid={ `${index}-ingredient-name-and-measure` }
                 >
                   <input
                     type="checkbox"
-                    checked={ ingredient.checked }
+                    checked={ check[index]?.checked }
                     id="checkbox"
                     onChange={ () => SaveOnLocal(ingredient.name, ingredient.type) }
                     name={ ingredient.name }
@@ -219,6 +236,7 @@ function RecipeInProgress() {
           )}
         </div>
         <button
+          disabled={ !btDisabled }
           type="button"
           data-testid="finish-recipe-btn"
           className="finish-btn"
@@ -230,4 +248,3 @@ function RecipeInProgress() {
     );
   }
 }
-export default RecipeInProgress;
