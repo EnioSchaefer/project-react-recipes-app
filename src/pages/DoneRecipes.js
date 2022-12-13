@@ -1,8 +1,6 @@
-
-import React from 'react';
-import Header from '../components/Header';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import handleClick from '../service/setDoneLink';
 import './DoneRecipes.css';
@@ -156,4 +154,3 @@ export default function DoneRecipes() {
 //     </div>
 //   );
 // }
-

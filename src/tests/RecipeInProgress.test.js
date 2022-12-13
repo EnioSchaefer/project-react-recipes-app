@@ -16,7 +16,7 @@ describe('Testa a tela de RecipeInprogress', () => {
     jest.spyOn(global, 'fetch').mockImplementation(fetch);
   });
 
-  it('verifica os botões', async () => {
+  test('verifica os botões', async () => {
     const { history } = renderWithRouter(<App />);
 
     act(() => { history.push('/meals/52771/in-progress'); });
@@ -31,12 +31,11 @@ describe('Testa a tela de RecipeInprogress', () => {
     expect(btnFavorite).toHaveAttribute('src', 'blackHeartIcon.svg');
     userEvent.click(btnFavorite);
     expect(btnFavorite).toHaveAttribute('src', 'whiteHeartIcon.svg');
-
-  it.skip('verifica os botões', async () => {
+  });
+  test('verifica os botões', async () => {
     const { history } = renderWithRouter(<App />);
 
     act(() => { history.push('/meals/52977'); });
-
 
     const btnStartRecipe = await screen.findByTestId('finish-recipe-btn');
     expect(btnStartRecipe).toBeInTheDocument();
@@ -44,7 +43,7 @@ describe('Testa a tela de RecipeInprogress', () => {
     expect(history.location.pathname).toBe('/done-recipes');
   });
 
-  it('verifica os renderizacao e inputs', async () => {
+  test('verifica os renderizacao e inputs', async () => {
     copy.mockImplementation(() => {});
     const { history } = renderWithRouter(<App />);
 
@@ -59,14 +58,14 @@ describe('Testa a tela de RecipeInprogress', () => {
     userEvent.click(btnShare);
     jest.clearAllMocks();
   });
-
-  // it('verifica os renderizacao e inputs', async () => {
-  //   const { history } = renderWithRouter(<App />);
-
-  //   act(() => { history.push('/drinks/178319/in-progress'); });
-
-  //   const isAlcoholic = await screen.findByTestId('recipe-category');
-  //   expect(isAlcoholic).toBeInTheDocument();
-  //   expect(isAlcoholic).toHaveTextContent('Alcoholic');
-  // });
 });
+
+// it('verifica os renderizacao e inputs', async () => {
+//   const { history } = renderWithRouter(<App />);
+
+//   act(() => { history.push('/drinks/178319/in-progress'); });
+
+//   const isAlcoholic = await screen.findByTestId('recipe-category');
+//   expect(isAlcoholic).toBeInTheDocument();
+//   expect(isAlcoholic).toHaveTextContent('Alcoholic');
+// });
