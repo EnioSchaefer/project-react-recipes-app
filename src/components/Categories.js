@@ -40,7 +40,6 @@ function Categories() {
 
     const isSelected = newCategories
       .find((curr) => curr.name === category && curr.selected === true);
-    console.log(!!isSelected);
 
     if (isSelected) { setFilterCategory(data[dataOf]); } else { setFilterCategory(null); }
     setCategories(newCategories);

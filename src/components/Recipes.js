@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
 import Categories from './Categories';
+import Footer from './Footer';
 import Header from './Header';
 import './Recipes.css';
 
@@ -51,6 +52,7 @@ function Recipes() {
           <p data-testid={ `${index}-card-name` }>{recipe[nameOf]}</p>
         </Link>
       ))}
+      <Footer />
     </div>
   );
 }

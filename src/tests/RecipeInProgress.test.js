@@ -32,6 +32,12 @@ describe('Testa a tela de RecipeInprogress', () => {
     userEvent.click(btnFavorite);
     expect(btnFavorite).toHaveAttribute('src', 'whiteHeartIcon.svg');
 
+  it.skip('verifica os botões', async () => {
+    const { history } = renderWithRouter(<App />);
+
+    act(() => { history.push('/meals/52977'); });
+
+
     const btnStartRecipe = await screen.findByTestId('finish-recipe-btn');
     expect(btnStartRecipe).toBeInTheDocument();
     userEvent.click(btnStartRecipe);

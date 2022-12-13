@@ -7,6 +7,7 @@ import MainRecipes from './pages/MainRecipes';
 import Login from './components/Login';
 import DoneRecipe from './pages/DoneRecipes';
 import Profile from './pages/Profile';
+import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 
 function App() {

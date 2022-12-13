@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import copy from 'clipboard-copy';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -10,6 +9,7 @@ import fetchData from '../service/fetchData';
 import setLocalStorage from '../service/setLocalStorage';
 import './RecipeDetails.css';
 import getVerification from '../service/recipeDetaisVerification';
+import shareLink from '../service/shareLink';
 
 export default function RecipeDetails() {
   const { recipeData, isMeal, ingredients,
@@ -18,7 +18,6 @@ export default function RecipeDetails() {
   const [carouselList, setCarouselList] = useState(null);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const doneRecipesLocalStorage = [];
   const history = useHistory();
   const path = history.location.pathname;
   const id = path.split('/')[2];
@@ -29,6 +28,7 @@ export default function RecipeDetails() {
     dataOf,
     recomendationOf,
     renderCaroucel } = getVerification(meal);
+  const [inProgress, setInProgress] = useState(null);
 
   useEffect(() => {
     const setData = async () => {
@@ -77,14 +77,12 @@ export default function RecipeDetails() {
     }
   }, [recipeData, setIngredients, meal]);
 
-  const shareLink = () => {
-    copy(window.location.href);
-    setShowCopyMessage(true);
-    const fiveSeconds = 5000;
-    setTimeout(() => {
-      setShowCopyMessage(false);
-    }, fiveSeconds);
-  };
+  useEffect(() => {
+    const list = JSON.parse(localStorage.getItem('inProgressRecipes') || '[]');
+    const doneRecipesLocalStorage = Object
+      .values(list).some((item, i) => Object.keys(item)[i] === id);
+    setInProgress(doneRecipesLocalStorage);
+  }, [id]);
 
   if (recipeData) {
     return (
@@ -113,14 +111,20 @@ export default function RecipeDetails() {
             alt="favorite button"
           />
         </button>
-        <button type="button" onClick={ shareLink } data-testid="share-btn">
+        <button
+          type="button"
+          onClick={ () => {
+            shareLink((isMeal ? 'meal' : 'drink'), id);
+            setShowCopyMessage(true);
+          } }
+          data-testid="share-btn"
+        >
           <img
             src={ shareIcon }
             alt="share button"
           />
         </button>
-        {showCopyMessage
-          && <span style={ { fontSize: '10px' } }>Link copied!</span>}
+        {showCopyMessage && <span style={ { fontSize: '10px' } }>Link copied!</span>}
         {meal ? <h4 data-testid="recipe-category">{ recipeData.strCategory }</h4>
           : (
             <h4 data-testid="recipe-category">
@@ -179,26 +183,14 @@ export default function RecipeDetails() {
             ))}
           </div>
         </div>
-        {
-          (doneRecipesLocalStorage.length > 0) ? (
-            <button
-              type="button"
-              data-testid="start-recipe-btn"
-              className="start-btn"
-              onClick={ () => history.push(`/${dataOf}/${recipeData[idOf]}/in-progress`) }
-            >
-              Start Recipe
-            </button>
-          ) : (
-            <button
-              type="button"
-              className="start-btn"
-              onClick={ () => history.push(`/${dataOf}/${recipeData[idOf]}/in-progress`) }
-            >
-              Continue Recipe
-            </button>
-          )
-        }
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          className="start-btn"
+          onClick={ () => history.push(`/${dataOf}/${recipeData[idOf]}/in-progress`) }
+        >
+          {inProgress ? 'Continue Recipe' : 'Start Recipe'}
+        </button>
       </div>
     );
   }
