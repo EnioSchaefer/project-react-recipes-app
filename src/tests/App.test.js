@@ -1,11 +1,7 @@
 import React from 'react';
-// import { render } from '@testing-library/react';
 import App from '../App';
-import renderWithRouter from './Helpers/renderWith';
-// import RecipeProvider from '../context/RecipeContext';
+import renderWithRouter from './helpers/renderWithRouter';
 
-test('Testes da Tela de receita em progresso', () => {
-  renderWithRouter(
-    <App />,
-  );
+test('Renderiza o App', () => {
+  renderWithRouter(<App />);
 });

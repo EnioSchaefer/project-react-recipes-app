@@ -3,7 +3,7 @@ import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import copy from 'clipboard-copy';
 import App from '../App';
-import renderWithRouter from './Helpers/renderWith';
+import renderWithRouter from './helpers/renderWithRouter';
 import fetch from '../../cypress/mocks/fetch';
 
 describe('Testa a tela de RecipeInprogress', () => {

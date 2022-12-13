@@ -4,10 +4,8 @@ import { useHistory } from 'react-router-dom';
 function Login() {
   const [emailLogin, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  //   const [isDisabled, setDisabled] = useState(true);
   const history = useHistory();
 
-  //   emailValidate = () => {
   const minNumber = 7;
   const emailTest = emailLogin.includes('@')
     && emailLogin.includes('.com');
@@ -30,7 +28,6 @@ function Login() {
           data-testid="email-input"
           value={ emailLogin }
           onChange={ ({ target }) => setEmail(target.value) }
-        //   onChange={ () => handleChange() }
         />
       </label>
       <br />
@@ -42,7 +39,6 @@ function Login() {
           name="password"
           value={ password }
           onChange={ ({ target }) => setPassword(target.value) }
-          //   onChange={ () => handleChange() }
         />
       </label>
       <button

@@ -1,7 +1,7 @@
 import React from 'react';
 import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import renderWithRouter from './Helpers/renderWith';
+import renderWithRouter from './helpers/renderWithRouter';
 import fetch from '../../cypress/mocks/fetch';
 import App from '../App';
 
