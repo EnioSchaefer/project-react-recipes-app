@@ -45,3 +45,20 @@ h1 {
   width: 360px;
 }
 
+.search-button {
+  margin-right: 21.29px;
+}
+
+.icon-title img {
+  filter: invert(91%) sepia(100%) saturate(7484%)
+    hue-rotate(324deg) brightness(99%) contrast(99%);
+  height: 30px;
+  margin: auto;
+  width: 30px;
+}
+
+.icon-title {
+  display: flex;
+  flex-direction: column;
+  margin-top: 33px;
+}

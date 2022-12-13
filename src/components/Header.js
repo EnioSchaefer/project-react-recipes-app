@@ -6,7 +6,7 @@ import profileIconSVG from '../images/profileIcon.svg';
 import SearchBar from './SearchBar';
 import './Header.css';
 
-export default function Header({ title, showSearch }) {
+export default function Header({ title, icon, showSearch }) {
   const history = useHistory();
   const [showInput, setShowInput] = useState(false);
 
@@ -35,6 +35,7 @@ export default function Header({ title, showSearch }) {
               type="button"
               onClick={ () => setShowInput(!showInput) }
               data-testid="search-button"
+              className="search-button"
             >
               <img
                 data-testid="search-top-btn"
@@ -44,7 +45,13 @@ export default function Header({ title, showSearch }) {
             </button>
           )}
         </div>
-        <div>
+        <div className="icon-title">
+          {icon && (
+            <img
+              src={ icon }
+              alt="SVG element"
+            />
+          )}
           <h1
             data-testid="page-title"
           >
@@ -60,6 +67,7 @@ export default function Header({ title, showSearch }) {
 }
 
 Header.propTypes = {
+  icon: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   showSearch: PropTypes.bool.isRequired,
 };

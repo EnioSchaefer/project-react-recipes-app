@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
 import './Categories.css';
+import mealIconSVG from '../images/mealIcon.svg';
 
 function Categories() {
   const history = useHistory();
@@ -66,6 +67,10 @@ function Categories() {
         data-testid="All-category-filter"
         onClick={ () => setFilterCategory(null) }
       >
+        <img
+          src={ mealIconSVG }
+          alt="All categories icon SVG"
+        />
         All
       </button>
     </div>

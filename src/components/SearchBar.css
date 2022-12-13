@@ -4,8 +4,10 @@
   border-style: solid;
   border-width: 1px;
   display: block;
+  height: 40px;
   padding: 0;
   position: relative;
+  text-indent: 17.38px;
   width: 336px;
 }
 
@@ -40,11 +42,12 @@
 
 .search-bar {
   background-color: #41197f;
-  border-radius: 0 0 20px 20px;
+  border-radius: 10px 10px 20px 20px;
   font-family: Epilogue , sans-serif;
   font-size: 9px;
   font-weight: 400;
-  height: 88px;
+
+  /* height: 88px; */
   line-height: 9px;
   margin: 0 11px;
   position: relative;

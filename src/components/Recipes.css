@@ -2,24 +2,28 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  padding-bottom: 46px;
   width: 360px;
 }
 
 .recipes img {
   border-radius: 5px 5px 0 0;
-  width: 163px;
+  height: 134.85px;
+  width: 163.35px;
 }
 
 .recipes p {
-  border-color: #b1b1b1;
-  border-radius: 5px;
-  border-style: groove;
-  border-width: 0.512;
   color: #1a1b1c;
-  margin: 0 0 5px;
-  max-width: 163px;
+  margin: 10.01px 14.69px 9.38px;
+  width: 142.8px;
 }
 
 .recipeCard {
+  border-color: #b1b1b1;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 0.512px;
+  margin-bottom: 11.79px;
   text-decoration: none;
+  width: 163.2px;
 }

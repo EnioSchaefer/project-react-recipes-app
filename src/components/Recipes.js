@@ -5,6 +5,8 @@ import Categories from './Categories';
 import Footer from './Footer';
 import Header from './Header';
 import './Recipes.css';
+import drinkIconSVG from '../images/drinkIcon.svg';
+import mealIconSVG from '../images/mealIcon.svg';
 
 function Recipes() {
   const history = useHistory();
@@ -35,7 +37,11 @@ function Recipes() {
   return (
     <div>
       <div>
-        <Header title={ meal ? 'Meals' : 'Drinks' } showSearch />
+        <Header
+          icon={ meal ? mealIconSVG : drinkIconSVG }
+          title={ meal ? 'Meals' : 'Drinks' }
+          showSearch
+        />
         <Categories />
         <div className="recipes">
           {(filterCategory || recipes).map((recipe, index) => index < renderAmount && (
@@ -50,15 +56,12 @@ function Recipes() {
                 data-testid={ `${index}-card-img` }
                 alt={ recipe[nameOf] }
               />
-              <div>
-                <p data-testid={ `${index}-card-name` }>{recipe[nameOf]}</p>
-              </div>
+              <p data-testid={ `${index}-card-name` }>{recipe[nameOf]}</p>
             </Link>
           ))}
         </div>
       </div>
       <Footer />
-      <Categories />
     </div>
   );
 }
