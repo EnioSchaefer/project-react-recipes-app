@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import shareIcon from '../images/shareIcon.svg';
 import Header from '../components/Header';
 import handleClick from '../service/setDoneLink';
+import './DoneRecipes.css';
 
 export default function DoneRecipes() {
   const [showCopyMessage, setShowCopyMessage] = useState(false);
@@ -52,14 +53,14 @@ export default function DoneRecipes() {
       {
         doneRecipesList && doneRecipesList.map((item, index) => (
           <div key={ index } data-testid="done">
-            <Link
-              to={ `${item.type}s/${item.id}` }
-            >
+            <Link to={ `${item.type}s/${item.id}` }>
               <img
                 src={ item.image }
                 alt=""
                 data-testid={ `${index}-horizontal-image` }
               />
+            </Link>
+            <Link to={ `${item.type}s/${item.id}` }>
               <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
             </Link>
             <p data-testid={ `${index}-horizontal-done-date` }>{item.doneDate}</p>

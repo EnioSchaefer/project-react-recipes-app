@@ -82,7 +82,6 @@ export default function RecipeDetails() {
     const doneRecipesLocalStorage = Object
       .values(list).some((item, i) => Object.keys(item)[i] === id);
     setInProgress(doneRecipesLocalStorage);
-    console.log(doneRecipesLocalStorage);
   }, [id]);
 
   if (recipeData) {
