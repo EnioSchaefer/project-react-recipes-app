@@ -106,15 +106,31 @@ function RecipeInProgress() {
     const meals = localStg3.meals ? localStg3.meals : {};
     const types = `${type}s.${idRecipe}`;
     const newKey = { ...localStg3[types], [idRecipe]: usedIngredients };
-    const newLocalstg = type === 'meal'
+    const newLocalstg = isMeal
       ? { drinks, meals: newKey } : { drinks: newKey, meals };
     localStorage.setItem('inProgressRecipes', JSON.stringify(newLocalstg));
     setIngredients(verifica);
   };
 
   useEffect(() => {
-    setBtDisabled(ingredients.every((element) => element.checked));
+    setBtDisabled(ingredients.every((element2) => element2.checked));
   }, [ingredients]);
+
+  useEffect(() => {
+    const newIngredients = ingredients.map((el) => ({
+      ...el,
+      checked: false,
+    }));
+    console.log(newIngredients);
+    const localStg3 = JSON.parse(localStorage
+      .getItem('inProgressRecipes')) || [];
+
+    const typeKey = localStg3[meal ? 'meals' : 'drinks'][id];
+    setIngredients(newIngredients.map((element1) => {
+      if (typeKey.includes(element1.name)) element1.checked = true;
+      return element1;
+    }));
+  }, []);
 
   const shareLink = () => {
     const addres = window.location.href.split('/in-progress')[0];
