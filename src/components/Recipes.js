@@ -53,7 +53,6 @@ function Recipes() {
         </Link>
       ))}
       <Footer />
-      <Categories />
     </div>
   );
 }

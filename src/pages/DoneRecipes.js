@@ -58,6 +58,7 @@ export default function DoneRecipes() {
                 src={ item.image }
                 alt=""
                 data-testid={ `${index}-horizontal-image` }
+                className="done-recipe-img"
               />
             </Link>
             <Link to={ `${item.type}s/${item.id}` }>

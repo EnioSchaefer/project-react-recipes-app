@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 function ProfileInfo() {
   const history = useHistory();
-  const emailDoUsuario = JSON.parse(localStorage.getItem('user')).email;
+  const emailDoUsuario = JSON.parse(localStorage.getItem('user'));
   //   favoriteRecipes;
   const localStorageClear = () => {
     localStorage.clear();
@@ -13,7 +13,7 @@ function ProfileInfo() {
   return (
     <div>
       <span data-testid="profile-email">
-        {emailDoUsuario}
+        {emailDoUsuario && emailDoUsuario.email}
       </span>
       <br />
       <br />
