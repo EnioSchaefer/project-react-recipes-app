@@ -4,9 +4,7 @@ import fetchDrinks from '../service/fetchDrinks';
 import fetchMeals from '../service/fetchMeals';
 
 const RecipeContext = createContext();
-
 export default RecipeContext;
-
 export function RecipeProvider({ children }) {
   const [searchBy, setSearchBy] = useState({
     search: '',
@@ -79,6 +77,7 @@ export function RecipeProvider({ children }) {
       setIsMeal,
       ingredients,
       setIngredients,
+
     }
   ), [recipes, searchInput, radio, path,
     searchBy, recipeData, filterCategory,

@@ -1,10 +1,11 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+// import { render } from '@testing-library/react';
 import App from '../App';
+import renderWithRouter from './Helpers/renderWith';
+// import RecipeProvider from '../context/RecipeContext';
 
-test('Farewell, front-end', () => {
-  // Este arquivo pode ser modificado ou deletado sem problemas
-  render(<App />);
-  const linkElement = screen.getByText(/TRYBE/i);
-  expect(linkElement).toBeInTheDocument();
+test('Testes da Tela de receita em progresso', () => {
+  renderWithRouter(
+    <App />,
+  );
 });
