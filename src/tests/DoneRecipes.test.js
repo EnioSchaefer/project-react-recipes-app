@@ -102,9 +102,10 @@ describe('Testa a tela de Done Recipes', () => {
 
     const shareBtn = await screen.findByTestId('0-horizontal-share-btn');
     expect(shareBtn).toBeInTheDocument();
-    userEvent.click(shareBtn); await new Promise((r) => { setTimeout(r, 2000); });
+    userEvent.click(shareBtn);
+    // userEvent.click(shareBtn); await new Promise((r) => { setTimeout(r, 5000); });
     // const shareMsg = await screen.findByTestId('share');
-    // expect(shareMsg).toHaveTextContent('Link copied!');
+    expect(await screen.findAllByText('Link copied!'));
     jest.clearAllMocks();
   });
 });

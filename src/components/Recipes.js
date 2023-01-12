@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
 import Categories from './Categories';
@@ -17,7 +17,7 @@ function Recipes() {
   const imageOf = meal ? 'strMealThumb' : 'strDrinkThumb';
   const dataOf = meal ? 'meals' : 'drinks';
   const idOf = meal ? 'idMeal' : 'idDrink';
-  const [apiResponse, setApiResponse] = useState(null);
+  // const [apiResponse, setApiResponse] = useState(null);
   const { filterCategory, setRecipes, recipes } = useContext(RecipeContext);
 
   useEffect(() => {
@@ -26,13 +26,10 @@ function Recipes() {
         : 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
       const response = await fetch(url);
       const data = await response.json();
-      setApiResponse(data[dataOf]);
       setRecipes(data[dataOf]);
     };
     fetchRecipes();
   }, [dataOf, meal, setRecipes]);
-
-  if (!apiResponse) return <p>Loading Recipes...</p>;
 
   return (
     <div>
@@ -44,7 +41,7 @@ function Recipes() {
         />
         <Categories />
         <div className="recipes">
-          {(filterCategory || recipes).map((recipe, index) => index < renderAmount && (
+          {(filterCategory || recipes)?.map((recipe, index) => index < renderAmount && (
             <Link
               to={ `${dataOf}/${recipe[idOf]}` }
               data-testid={ `${index}-recipe-card` }

@@ -119,23 +119,19 @@ export default function RecipeInProgress() {
       .getItem('inProgressRecipes')) || [];
     const checkLocal = localStg3[meal ? 'meals' : 'drinks'];
     const typeKey = checkLocal ? checkLocal[id] : [];
-    if (typeKey !== undefined) {
-      const newVar = newIngredients.map((element1) => {
-        if (typeKey.includes(element1.name)) element1.checked = true;
-        return element1;
-      });
-      setCheck(newVar);
-    }
+    // if (typeKey !== undefined) {
+    const newVar = newIngredients.map((element1) => {
+      if (typeKey.includes(element1.name)) element1.checked = true;
+      return element1;
+    });
+    setCheck(newVar);
+    // }
   }, [ingredients, id, meal]);
 
   const shareLink = () => {
     const addres = window.location.href.split('/in-progress')[0];
     copy(addres);
     setShowCopyMessage(true);
-    const fiveSeconds = 5000;
-    setTimeout(() => {
-      setShowCopyMessage(false);
-    }, fiveSeconds);
   };
   if (recipeData) {
     return (
@@ -206,6 +202,7 @@ export default function RecipeInProgress() {
                   data-testid={ `${index}-ingredient-name-and-measure` }
                 >
                   <input
+                    data-testid={ `${index}-ingredient-steps` }
                     type="checkbox"
                     checked={ check[index]?.checked }
                     id="checkbox"

@@ -6,6 +6,19 @@ import fetch from '../../cypress/mocks/fetch';
 import App from '../App';
 
 const drink = '/drinks/178319';
+
+const favoriteRecipe = [
+  {
+    id: '52771',
+    type: 'meal',
+    nationality: 'Italian',
+    category: 'Vegetarian',
+    alcoholicOrNot: '',
+    name: 'Spicy Arrabiata Penne',
+    image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+  },
+];
+
 describe('Testa a tela de Recipe Details', () => {
   localStorage.setItem('inProgressRecipes', JSON.stringify({ drinks: { 178319: ['Pineapple Juice-ingredient-1'] } }));
 
@@ -56,6 +69,9 @@ describe('Testa a tela de Recipe Details', () => {
     expect(fav).toHaveAttribute('src', 'whiteHeartIcon.svg');
     userEvent.click(fav);
     expect(fav).toHaveAttribute('src', 'blackHeartIcon.svg');
+
+    const local = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    expect(local).toStrictEqual(favoriteRecipe);
 
     const share = screen.getByTestId('share-btn');
     expect(share).toBeInTheDocument();
