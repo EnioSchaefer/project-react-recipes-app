@@ -5,7 +5,7 @@ O Projeto é um webApp mobile focado no compartilhamento de receitas culinárias
 </p>
 
 <p>
-Projeto realizado em *colaboração*  com **4** colegas em pouco menos de **2 semanas**.
+Projeto realizado em colaboração  com 4 colegas em pouco menos de 2 semanas.
 
 </p>
 
