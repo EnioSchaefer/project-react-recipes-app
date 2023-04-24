@@ -1,5 +1,7 @@
 <h1 align="center"> App de Receitas 🍛🥤 </h1>
 
+<p align="center">-- Projeto de Front-End --</p>
+
 <p>
 O Projeto é um webApp mobile focado no compartilhamento de receitas culinárias. No app é possível salvar receitas favoritas, iniciar um passo a passo com base nos ingredientes, salvar o progresso de receitas em andamento, vizualizar as receitas completas e removê-las dos favoritos.
 </p>
