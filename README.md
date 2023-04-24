@@ -1,10 +1,44 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+<h1 align="center"> App de Receitas 🍛🥤 </h1>
+
+<p>
+O Projeto é um webApp mobile focado no compartilhamento de receitas culinárias. No app é possível salvar receitas favoritas, iniciar um passo a passo com base nos ingredientes, salvar o progresso de receitas em andamento, vizualizar as receitas completas e removê-las dos favoritos.
+</p>
+
+<p>
+Projeto realizado em *colaboração*  com **4** colegas em pouco menos de **2 semanas**.
+
+</p>
+
+<h2 align="center"> Apredizados do projeto 📝 </h2>
+
+- Trabalho em equipe
+- Metodologias Ágeis
+- Comunicação
+- React
+- React Hooks
+- Javascript
+- RTL
+- CSS
+- HTML
+
+<h2 align="center"> Instalação 👨‍💻 </h2>
+
+Caso queira instalar o projeto e dar uma olhada mais de perto.
+
+```bash
+  # Clonando o projeto
+  git clone git@github.com:WillianDutra/recipes-app.git
+  # Entrando na pasta
+  cd recipes-app
+  # Instalando as dependências
+  npm install
+  # Iniciando a aplicação
+  npm start
+  # Automaticamente a aplicação será aberta no navegador
+```
+<h2 align="center">Parceiros de desenvolvimento! 🚀</h2>
+
+- [@GilmaraLopes](https://github.com/GilmaraLopes)
+- [@VictorHugoFerreira](https://github.com/victorhugoferreira)
+- [@KarlaOshikawa](https://github.com/karlaoshikawa)
+- [@HerculesAraujo](https://github.com/herculesaraujo)
