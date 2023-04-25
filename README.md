@@ -1,4 +1,4 @@
-<h1 align="center"> App de Receitas 🍛🥤 </h1>
+<h1 align="center"> 🥤 App de Receitas 🍛 </h1>
 
 <p align="center">-- Projeto de Front-End --</p>
 
@@ -11,7 +11,7 @@ Projeto realizado em colaboração  com 4 colegas em pouco menos de 2 semanas.
 
 </p>
 
-<h2 align="center"> Apredizados do projeto 📝 </h2>
+<h2 align="center"> 📝 Skills utilizadas </h2>
 
 - Trabalho em equipe
 - Metodologias Ágeis
@@ -23,7 +23,7 @@ Projeto realizado em colaboração  com 4 colegas em pouco menos de 2 semanas.
 - CSS
 - HTML
 
-<h2 align="center"> Instalação 👨‍💻 </h2>
+<h2 align="center"> 👨‍💻 Instalação </h2>
 
 Caso queira instalar o projeto e dar uma olhada mais de perto.
 
@@ -38,7 +38,7 @@ Caso queira instalar o projeto e dar uma olhada mais de perto.
   npm start
   # Automaticamente a aplicação será aberta no navegador
 ```
-<h2 align="center">Parceiros de desenvolvimento! 🚀</h2>
+<h2 align="center"> 🚀 Parceiro(a)s de desenvolvimento! </h2>
 
 - [@GilmaraLopes](https://github.com/GilmaraLopes)
 - [@VictorHugoFerreira](https://github.com/victorhugoferreira)
