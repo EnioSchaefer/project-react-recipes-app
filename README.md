@@ -29,7 +29,7 @@ Caso queira instalar o projeto e dar uma olhada mais de perto.
 
 ```bash
   # Clonando o projeto
-  git clone git@github.com:WillianDutra/recipes-app.git
+  git clone git@github.com:EnioSchaefer/project-react-recipes-app.git
   # Entrando na pasta
   cd recipes-app
   # Instalando as dependências
