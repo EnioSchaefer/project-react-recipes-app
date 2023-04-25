@@ -31,7 +31,7 @@ Caso queira instalar o projeto e dar uma olhada mais de perto.
   # Clonando o projeto
   git clone git@github.com:EnioSchaefer/project-react-recipes-app.git
   # Entrando na pasta
-  cd recipes-app
+  cd project-react-recipes-app
   # Instalando as dependências
   npm install
   # Iniciando a aplicação
